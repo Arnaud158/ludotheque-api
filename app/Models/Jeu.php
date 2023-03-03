@@ -22,6 +22,4 @@ class Jeu extends Model
             ->as('achats')
             ->withPivot('date_achat','lieu_achat','prix');
     }
-
-
 }
