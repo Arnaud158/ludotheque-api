@@ -24,16 +24,16 @@ class JeuRequest extends FormRequest
     public function rules()
     {
         return [
-            'nom' => "required|string|between:5,50",
-            'description' => "required|string|between:5,50",
-            'langue' => "required|integer|between:4,6",
-            'age_min' => "required|string|between:2,50",
-            'nombre_joueurs_min' => "required|string|between:2,50",
-            'nombre_joueurs_max' => "required|string|between:2,50",
-            'duree_partie' => "required|string|between:2,50",
-            'categorie' => "required|string|between:2,50",
-            'theme' => "required|string|between:2,50",
-            'editeur' => "required|string|between:2,50"
+            'nom' => "required|string|between:1,50",
+            'description' => "required|string|between:1,50",
+            'langue' => "required|string|between:1,10",
+            'age_min' => "required|number",
+            'nombre_joueurs_min' => "required|integer",
+            'nombre_joueurs_max' => "required|integer",
+            'duree_partie' => "required|string|between:1,50",
+            'categorie' => "required|string|between:1,50",
+            'theme' => "required|string|between:1,50",
+            'editeur' => "required|string|between:1,50"
         ];
     }
 }
