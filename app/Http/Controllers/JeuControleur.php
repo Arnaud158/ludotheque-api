@@ -99,14 +99,40 @@ class JeuControleur extends Controller
         //
     }
 
-    public function listeJeu() {
+    public function listeJeu(Request $request) {
         $user = Auth::check();
         if ($user) {
+            $jeux = Jeu::all();
+            if ($request->age !=null) {
+                $jeux = $jeux->where('age' >= $request->age);
+            }
+            if ($request->duree !=null) {
+                $jeux = $jeux->where('duree' >= $request->duree);
+            }
+            if ($request->nb_joueurs_min !=null) {
+                $jeux = $jeux->where('nombre_joueurs_min' >= $request->nombre_joueurs_min);
+            }
+            if ($request->nb_joueurs_max !=null) {
+                $jeux = $jeux->where('nombre_joueurs_max' >= $request->nombre_joueurs_max);
+            }
+            if ($request->sort !=null) {
+                $jeux = $jeux->sortBy($request->sort);
+            }
 
+            // a continuer avec categorie, theme, editeur
+
+            return response()->json([
+                "status" => "success",
+                "Jeux" => new JeuResource($jeux)
+            ],200);
         }
         else {
             $jeux = Jeu::all()->random(5);
-            return new JeuResource($jeux);
+            return response()->json([
+                "status" => "success",
+                "Jeux" => new JeuResource($jeux)
+            ],200);
+            // si marche pas, juste return new JeuRessource
         }
     }
 }
