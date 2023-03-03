@@ -14,7 +14,7 @@ return new class extends Migration
      * @return void
      */
     public function up() {
-        Schema::create('Commentaire', function (Blueprint $table) {
+        Schema::create('commentaires', function (Blueprint $table) {
             $table->id();
             $table->string('commentaire', 200);
             $table->dateTime('date_com')->default(now());
@@ -34,6 +34,6 @@ return new class extends Migration
      * @return void
      */
     public function down() {
-        Schema::dropIfExists('Commentaire');
+        Schema::dropIfExists('commentaires');
     }
 };

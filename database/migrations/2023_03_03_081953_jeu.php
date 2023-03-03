@@ -12,7 +12,7 @@ return new class extends Migration
      * @return void
      */
     public function up() {
-        Schema::create('Jeu', function (Blueprint $table) {
+        Schema::create('jeus', function (Blueprint $table) {
             $table->id();
             $table->string('nom', 50);
             $table->string('description', 200);
@@ -24,6 +24,9 @@ return new class extends Migration
             $table->integer('nombre_joueurs_max');
             $table->string('duree_partie',50);
             $table->boolean('valide')->default(true);
+            $table->foreignIdFor()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -34,6 +37,6 @@ return new class extends Migration
      * @return void
      */
     public function down() {
-        Schema::dropIfExists('Jeu');
+        Schema::dropIfExists('jeus');
     }
 };

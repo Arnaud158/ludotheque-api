@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('Adherent', function (Blueprint $table) {
+        Schema::create('adherents', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('nom',50);
             $table->string('prenom',50);
             $table->string('pseudo',50);
-            $table->string('avatar',100);
+            $table->string('avatar',100)->default('avatar_default.png');
             $table->rememberToken();
             $table->timestamps();
         });
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Adherent');
+        Schema::dropIfExists('adherents');
     }
 };

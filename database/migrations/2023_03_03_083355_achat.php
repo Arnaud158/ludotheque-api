@@ -14,7 +14,7 @@ return new class extends Migration
      * @return void
      */
     public function up() {
-        Schema::create('Achat', function (Blueprint $table) {
+        Schema::create('achats', function (Blueprint $table) {
             $table->foreignIdFor(Adherent::class)
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
@@ -33,6 +33,6 @@ return new class extends Migration
      * @return void
      */
     public function down() {
-        Schema::dropIfExists('Achat');
+        Schema::dropIfExists('achats');
     }
 };
