@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('nom', 50);
             $table->string('description', 200);
+            $table->string('regles', 200);
             $table->string('langue',50);
             $table->string('url_media', 100);
             $table->integer('age_min');

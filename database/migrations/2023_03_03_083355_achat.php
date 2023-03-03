@@ -14,17 +14,16 @@ return new class extends Migration
      * @return void
      */
     public function up() {
-        Schema::create('Commentaire', function (Blueprint $table) {
-            $table->id();
-            $table->string('commentaire', 200);
-            $table->dateTime('date_com')->default(now());
-            $table->integer('note');
+        Schema::create('Achat', function (Blueprint $table) {
             $table->foreignIdFor(Adherent::class)
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->foreignIdFor(Jeu::class)
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->dateTime('date_achat')->default(now());
+            $table->string('lieu_achat', 50);
+            $table->integer('prix');
         });
     }
 
@@ -34,6 +33,6 @@ return new class extends Migration
      * @return void
      */
     public function down() {
-        Schema::dropIfExists('Commentaire');
+        Schema::dropIfExists('Achat');
     }
 };
