@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AchatRequest;
 use App\Http\Requests\JeuRequest;
 use App\Http\Resources\JeuResource;
+use App\Models\Achat;
 use App\Models\Jeu;
 use App\Models\Tache;
 use Exception;
@@ -215,4 +217,15 @@ class JeuController extends Controller
             ]);
         }
     }
+
+    public function achetJeu(AchatRequest $request, $id){
+            $jeu = Jeu::findOrFail($id);
+            if($jeu->valide == true);
+        {
+            $achat = new Achat();
+
+        }
+
+    }
+
 }
