@@ -87,13 +87,13 @@ paths:
     delete:
       tags:
         - Jeu
-      summary: 'Deletes a game'
+      summary: 'Deletes a game.'
       operationId: ad5a9127a1998ec3d9b92f5f2f5ce7a0
       parameters:
         -
           name: id
           in: path
-          description: 'Game id'
+          description: 'Jeu id'
           required: true
           schema:
             type: integer

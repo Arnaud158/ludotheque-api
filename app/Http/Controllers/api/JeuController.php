@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AchatRequest;
 use App\Http\Requests\JeuRequest;
 use App\Http\Resources\JeuResource;
+use App\Models\Achat;
 use App\Models\Jeu;
 use App\Models\Tache;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -156,6 +159,30 @@ class JeuController extends Controller
         return redirect()->route('$jeux.index');
     }
 
+    public function create(JeuRequest $request)
+    {
+
+        $jeu = new Jeu();
+        $jeu->id_jeu = $request->id_jeu;
+        $jeu->nom = $request->nom;
+        $jeu->description = $request->description;
+        $jeu->langue = $request->langue;
+        $jeu->url_media = $request->url_media;
+        $jeu->age_min = $request->age_min;
+        $jeu->nombre_joureus_min = $request->nombre_joureus_min;
+        $jeu->nombre_joueurs_max = $request->nombre_joueurs_max;
+        $jeu->duree_partie = $request->duree_partie;
+        $jeu->valide = $request->valide;
+
+        $jeu->save();
+
+        return response()->json([
+            'status' => "success",
+            'message' => 'Game created successfully',
+            'jeu' => $jeu
+        ]);
+    }
+
     /**
      * @OA\Get(
      *      path="/jeux/{id}",
@@ -197,21 +224,45 @@ class JeuController extends Controller
      *          ),
      *          @OA\Response(response="401", description="Some data are missing.",),
      *          @OA\Response(response="403", description="You do not have right access",),
+
      *  ),
      */
-    public function update(Request $request, Jeu $jeux)
+    public function update(JeuRequest $request, $id)
     {
-        //
-    }
+        try {
+            $jeu = Jeu::findOrFail($id);
+            $jeu->nom = $request->nom;
+            $jeu->description = $request->description;
+            $jeu->langue = $request->langue;
+            $jeu->url_media = $request->url_media;
+            $jeu->age_min = $request->age_min;
+            $jeu->nombre_joureus_min = $request->nombre_joureus_min;
+            $jeu->nombre_joueurs_max = $request->nombre_joueurs_max;
+            $jeu->duree_partie = $request->duree_partie;
+            $jeu->valide = $request->valide;
 
+            $jeu->save();
+
+            return response()->json([
+                'status' => "success",
+                'message' => 'updated successfully',
+                'jeu' => $jeu
+            ]);
+        } catch (Exception) {
+            return response()->json([
+                'status' => false,
+                'message' => 'could not update the item'
+            ]);
+        }
+    }
     /**
      * @OA\Delete(
      *      path="/jeux/{id}",
      *      tags={"Jeu"},
-     *      summary="Deletes a game",
+     *      summary="Deletes a game.",
      *      @OA\Parameter(
      *          name="id",
-     *          description="Game id",
+     *          description="Jeu id",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
@@ -224,12 +275,26 @@ class JeuController extends Controller
      *          ),
      *          @OA\Response(response="401", description="Some data are missing.",),
      *          @OA\Response(response="403", description="You do not have right access",),
+
      *  ),
-     *),
      */
-    public function destroy(Jeu $jeux)
+    public function destroy($id)
     {
-        //
+        {
+            try {
+                $salle = Jeu::findOrFail($id);
+                $salle->delete();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'deleted successfully'
+                ]);
+            } catch (Exception) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'could not delete the item'
+                ]);
+            }
+        }
     }
 
     /**
@@ -368,6 +433,25 @@ class JeuController extends Controller
                 "Jeux" => new JeuResource($jeux)
             ],200);
             // si marche pas, juste return new JeuRessource
+        }
+    }
+
+    public function modifUrl(JeuRequest $request, $id)
+    {
+        try {
+            $jeu = Jeu::findOrFail($id);
+            $jeu->url_media = $request->url_media;
+            $jeu->save();
+            return response()->json([
+                'status' => "success",
+                'message' => "Game url media updated successfully"
+            ]);
+        } catch (Exception) {
+            return response()->json([
+                'status' => false,
+                'message' => "Game url media not updated",
+                "url_media" => $jeu->url_media
+            ]);
         }
     }
 }
