@@ -34,12 +34,12 @@ class JeuControleur extends Controller
         $jeu->nom = $request->nom;
         $jeu->description = $request->description;
         $jeu->langue = $request->langue;
-        $jeu->url_media = $request->url_media; // TODO
+        $jeu->url_media = $request->url_media;
         $jeu->age_min = $request->age_min;
         $jeu->nombre_joureus_min = $request->nombre_joureus_min;
         $jeu->nombre_joueurs_max = $request->nombre_joueurs_max;
         $jeu->duree_partie = $request->duree_partie;
-        $jeu->valide = $request->default; // TODO
+        $jeu->valide = $request->valide;
 
         $jeu->save();
 
@@ -66,10 +66,21 @@ class JeuControleur extends Controller
      * @param  \App\Models\Jeu  $jeux
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Jeu $jeux)
+    public function create()
     {
-        //
-    }
+        $jeu = new Jeu();
+        if($jeu->created()==true){
+        return response()->json([
+            'status' => true,
+            'message' => 'Game created successfully',
+            'jeu' => $jeu
+        ]);}
+        else{
+            return response()->json([
+                'status' => true,
+                'message' => 'Unprocessable Entity'
+            ]);}
+   }
 
     /**
      * Remove the specified resource from storage.
