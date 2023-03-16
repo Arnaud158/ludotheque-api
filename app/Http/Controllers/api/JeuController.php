@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\JeuRequest;
 use App\Http\Resources\JeuResource;
 use App\Models\Jeu;
 use App\Models\Tache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use function MongoDB\BSON\toJSON;
 
-class JeuControleur extends Controller
+class JeuController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +20,7 @@ class JeuControleur extends Controller
     public function index()
     {
         $jeux = Jeu::all();
-        return view('jeux.index', ['jeux' => $jeux]);
+        return new JeuResource($jeux);
     }
 
     /**
@@ -28,7 +29,7 @@ class JeuControleur extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(JeuRequest $request)
     {
         $this->validate(
             $request,
@@ -68,12 +69,11 @@ class JeuControleur extends Controller
      * @param  \App\Models\Jeu  $jeux
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
-        $action = $request->query('action', 'show');
-        $jeu = Jeu::find($id);
+        $jeu = Jeu::findOrFail($id);
 
-        return view('jeux.show', ['jeu' => $jeu, 'action' => $action]);
+        return new JeuResource($jeu);
     }
 
     /**
@@ -118,6 +118,19 @@ class JeuControleur extends Controller
             if ($request->sort !=null) {
                 $jeux = $jeux->sortBy($request->sort);
             }
+
+            if ($request->editeur !=null) {
+                $jeux = $jeux->where($jeux->editeur(), "=", $request->editeur);
+            }
+
+            if ($request->theme !=null) {
+                $jeux = $jeux->where($jeux->themes(), "=", $request->theme);
+            }
+
+            if ($request->categorie !=null) {
+                $jeux = $jeux->where($jeux->categories(), 'in', $request->categorie);
+            }
+
 
             // a continuer avec categorie, theme, editeur
 
