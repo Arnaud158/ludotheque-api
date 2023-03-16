@@ -22,19 +22,31 @@ class CommentaireController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Commentaire created successfully',
+            'message' => 'Comment created successfully',
             'comment' => $commentaire
         ]);
     }
+
     public function update(CommentaireRequest $request, $id)
     {
         $commentaire = Commentaire::findOrFail($id);
         $commentaire->update($request->all());
 
         return response()->json([
-            'status' => true,
-            'message' => 'Commentaire updated successfully',
+            'status' => 'success',
+            'message' => 'Comment updated successfully',
             'commentaire' => $commentaire
+        ], 200);
+    }
+
+    public function destroy($id)
+    {
+
+        $commentaire = Commentaire::findOrFail($id)->delete();
+
+        return response()->json([
+            'status'=> 'success',
+            'message' => "Comment successfully deleted",
         ], 200);
     }
 }
