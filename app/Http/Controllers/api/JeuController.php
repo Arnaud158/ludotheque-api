@@ -242,4 +242,16 @@ class JeuController extends Controller
 
     }
 
+    public function detailJeu($idJeu){
+        $jeu = Jeu::findOrFail($idJeu);
+        return response()->json([
+            'status' => "success",
+            'message' => "Full info of game",
+            "achats" => "",
+            "commentaires" =>  "",
+            "jeu" => "",
+            "nb_likes" => ""
+        ]);
+    }
+
 }
