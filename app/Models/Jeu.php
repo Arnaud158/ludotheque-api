@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Jeu extends Model
 {
     use HasFactory;
+
     public $timestamps = false;
 
     public function likes() {
