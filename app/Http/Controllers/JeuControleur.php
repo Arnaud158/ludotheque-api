@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\JeuRequest;
 use App\Models\Jeu;
+use Exception;
 use Illuminate\Http\Request;
 
 class JeuControleur extends Controller
@@ -17,32 +18,6 @@ class JeuControleur extends Controller
     {
         $jeux = Jeu::all();
         return view('jeux.index', ['jeux' => $jeux]);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(JeuRequest $request)
-    {
-
-        $jeu = new Jeu();
-
-        $jeu->id_jeu = $request->id_jeu;
-        $jeu->nom = $request->nom;
-        $jeu->description = $request->description;
-        $jeu->langue = $request->langue;
-        $jeu->url_media = $request->url_media;
-        $jeu->age_min = $request->age_min;
-        $jeu->nombre_joureus_min = $request->nombre_joureus_min;
-        $jeu->nombre_joueurs_max = $request->nombre_joueurs_max;
-        $jeu->duree_partie = $request->duree_partie;
-        $jeu->valide = $request->valide;
-
-        $jeu->save();
-
     }
 
     /**
@@ -66,20 +41,28 @@ class JeuControleur extends Controller
      * @param  \App\Models\Jeu  $jeux
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(JeuRequest $request)
     {
+
         $jeu = new Jeu();
-        if($jeu->created()==true){
+        $jeu->id_jeu = $request->id_jeu;
+        $jeu->nom = $request->nom;
+        $jeu->description = $request->description;
+        $jeu->langue = $request->langue;
+        $jeu->url_media = $request->url_media;
+        $jeu->age_min = $request->age_min;
+        $jeu->nombre_joureus_min = $request->nombre_joureus_min;
+        $jeu->nombre_joueurs_max = $request->nombre_joueurs_max;
+        $jeu->duree_partie = $request->duree_partie;
+        $jeu->valide = $request->valide;
+
+        $jeu->save();
+
         return response()->json([
             'status' => true,
             'message' => 'Game created successfully',
             'jeu' => $jeu
-        ]);}
-        else{
-            return response()->json([
-                'status' => true,
-                'message' => 'Unprocessable Entity'
-            ]);}
+        ]);
    }
 
     /**
@@ -91,5 +74,45 @@ class JeuControleur extends Controller
     public function destroy(Jeu $jeux)
     {
         //
+    }
+
+
+    /**
+     * @OA\Put(
+     *      path="/Jeus/{id}",
+     *      tags={"Jeu"},
+     *      summary="Met à jour un jeu",
+     *          @OA\Response(
+     *              response="200", description="L opération a fonctionnée.",
+     *          ),
+     *      @OA\Response(response="422", description="Unprocessable Entity",)
+     *  ),
+     */
+    public function update(JeuRequest $request, $id)
+    {
+        try {
+            $jeu = Jeu::findOrFail($id);
+            $jeu->nom = $request->nom;
+            $jeu->description = $request->description;
+            $jeu->langue = $request->langue;
+            $jeu->url_media = $request->url_media;
+            $jeu->age_min = $request->age_min;
+            $jeu->nombre_joureus_min = $request->nombre_joureus_min;
+            $jeu->nombre_joueurs_max = $request->nombre_joueurs_max;
+            $jeu->duree_partie = $request->duree_partie;
+            $jeu->valide = $request->valide;
+
+            $jeu->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'updated successfully'
+            ]);
+        } catch (Exception) {
+            return response()->json([
+                'status' => false,
+                'message' => 'could not update the item'
+            ]);
+        }
     }
 }
