@@ -66,18 +66,6 @@ class JeuControleur extends Controller
    }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Jeu  $jeux
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Jeu $jeux)
-    {
-        //
-    }
-
-
-    /**
      * @OA\Put(
      *      path="/Jeus/{id}",
      *      tags={"Jeu"},
@@ -112,6 +100,22 @@ class JeuControleur extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'could not update the item'
+            ]);
+        }
+    }
+
+    public function modifUrl(JeuRequest $request, $id){
+        try {
+        $jeu = Jeu::findOrFail($id);
+        $jeu->url_media = $request->url_media;
+        return response()->json([
+            'status' => true,
+            'message' => 'updated url successfully'
+        ]);
+        } catch (Exception) {
+            return response()->json([
+                'status' => false,
+                'message' => 'could not update the url'
             ]);
         }
     }
