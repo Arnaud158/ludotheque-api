@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CommentaireRequest;
+use App\Models\Commentaire;
 use Illuminate\Http\Request;
 
 class CommentaireController extends Controller
@@ -25,5 +26,15 @@ class CommentaireController extends Controller
             'comment' => $commentaire
         ]);
     }
+    public function update(CommentaireRequest $request, $id)
+    {
+        $commentaire = Commentaire::findOrFail($id);
+        $commentaire->update($request->all());
 
+        return response()->json([
+            'status' => true,
+            'message' => 'Commentaire updated successfully',
+            'commentaire' => $commentaire
+        ], 200);
+    }
 }
