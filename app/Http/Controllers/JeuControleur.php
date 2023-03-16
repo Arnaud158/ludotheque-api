@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\JeuRequest;
 use App\Models\Jeu;
-use App\Models\Tache;
 use Illuminate\Http\Request;
 
 class JeuControleur extends Controller
@@ -25,38 +25,24 @@ class JeuControleur extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(JeuRequest $request)
     {
-        $this->validate(
-            $request,
-            [
-                'nom' => 'required',
-                'description' => 'required',
-                'langue' => 'required',
-                'url_media' => 'required',
-                'age_min' => 'required',
-                'nombre_joureus_min' => 'required',
-                'nombre_joueurs_max' => 'required',
-                'duree_partie' => 'required',
-                'valide' => 'required',
-            ]
-        );
 
-        $jeu = new Jeu;
+        $jeu = new Jeu();
 
+        $jeu->id_jeu = $request->id_jeu;
         $jeu->nom = $request->nom;
         $jeu->description = $request->description;
         $jeu->langue = $request->langue;
-        $jeu->url_media = $request->url_media;
+        $jeu->url_media = $request->url_media; // TODO
         $jeu->age_min = $request->age_min;
         $jeu->nombre_joureus_min = $request->nombre_joureus_min;
         $jeu->nombre_joueurs_max = $request->nombre_joueurs_max;
         $jeu->duree_partie = $request->duree_partie;
-        $jeu->valide = $request->valide;
+        $jeu->valide = $request->default; // TODO
 
         $jeu->save();
 
-        return redirect()->route('$jeux.index');
     }
 
     /**

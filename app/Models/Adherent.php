@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class Adherent extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -41,4 +41,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function likes() {
+        return $this->belongsToMany(Jeu::class);
+    }
+
+    public function commentaires() {
+        return $this->belongsToMany(Commentaire::class);
+    }
+
+    public function achats() {
+        return $this->belongsToMany(Jeu::class,'achats')
+            ->as('achats')
+            ->withPivot('date_achat','lieu_achat','prix');
+    }
 }
