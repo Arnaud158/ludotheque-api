@@ -7,6 +7,7 @@ use App\Http\Requests\JeuRequest;
 use App\Http\Resources\JeuResource;
 use App\Models\Jeu;
 use App\Models\Tache;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -88,7 +89,7 @@ class JeuController extends Controller
         $jeu->save();
 
         return response()->json([
-            'status' => true,
+            'status' => "success",
             'message' => 'Game created successfully',
             'jeu' => $jeu
         ]);
@@ -109,7 +110,7 @@ class JeuController extends Controller
 
     /**
      * @OA\Put(
-     *      path="/Jeus/{id}",
+     *      path="/Jeux/{id}",
      *      tags={"Jeu"},
      *      summary="Met à jour un jeu",
      *          @OA\Response(
@@ -136,8 +137,9 @@ class JeuController extends Controller
             $jeu->save();
 
             return response()->json([
-                'status' => true,
-                'message' => 'updated successfully'
+                'status' => "success",
+                'message' => 'updated successfully',
+                'jeu' => $jeu
             ]);
         } catch (Exception) {
             return response()->json([
@@ -145,17 +147,6 @@ class JeuController extends Controller
                 'message' => 'could not update the item'
             ]);
         }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Jeu  $jeux
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Jeu $jeux)
-    {
-        //
     }
 
     public function listeJeu(Request $request) {
@@ -213,13 +204,14 @@ class JeuController extends Controller
             $jeu = Jeu::findOrFail($id);
             $jeu->url_media = $request->url_media;
             return response()->json([
-                'status' => true,
-                'message' => 'updated url successfully'
+                'status' => "success",
+                'message' => "Game url media updated successfully"
             ]);
         } catch (Exception) {
             return response()->json([
                 'status' => false,
-                'message' => 'could not update the url'
+                'message' => "Game url media not updated",
+                "url_media" => $jeu->url_media
             ]);
         }
     }
