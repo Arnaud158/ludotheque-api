@@ -7,6 +7,7 @@ use App\Http\Requests\AchatRequest;
 use App\Http\Requests\JeuRequest;
 use App\Http\Resources\JeuResource;
 use App\Models\Achat;
+use App\Models\Adherent;
 use App\Models\Jeu;
 use App\Models\Tache;
 use Exception;
@@ -218,13 +219,26 @@ class JeuController extends Controller
         }
     }
 
-    public function achetJeu(AchatRequest $request, $id){
-            $jeu = Jeu::findOrFail($id);
+    public function achetJeu(AchatRequest $request, $idJeu , $idAdherent){
+            $jeu = Jeu::findOrFail($idJeu);
+            $adherent = Adherent::findOrFail($idAdherent);
             if($jeu->valide == true);
         {
             $achat = new Achat();
-
+            $achat->date_achat = $request->date_achat;
+            $achat->lieu_achat = $request->lieu_achat;
+            $achat->prix = $request->prix;
+            $achat->adherent_id = $idAdherent;
+            $achat->jeu_id = $idJeu;
+            $achat->save();
         }
+        return response()->json([
+            'status' => "success",
+            'message' => "Purchase created successfully",
+            "achat" => $achat,
+            "adherent" => $adherent,
+            "jeu" => $jeu
+        ]);
 
     }
 
