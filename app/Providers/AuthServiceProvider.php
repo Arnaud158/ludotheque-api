@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Adherent;
 use Illuminate\Support\Facades\Gate;
 //use Illuminate\Auth\Access\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -26,8 +27,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('same-user', function ($user, $id) {
-            return $user->id === $id || $user->roles()->where('nom', 'administrateur')->exists();
+        Gate::define('same-user', function (Adherent $user, Adherent $otherUser) {
+            return $user->id == $otherUser->id || $user->roles()->where('nom', 'administrateur')->exists();
         });
     }
 }

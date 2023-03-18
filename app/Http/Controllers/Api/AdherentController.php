@@ -8,6 +8,7 @@ use App\Models\Adherent;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 
 class AdherentController extends Controller
@@ -25,21 +26,24 @@ class AdherentController extends Controller
      */
     public function register(AdherentRequest $request)
     {
-        $adherant = new Adherent();
-        $adherant->name = $request->login;
-        $adherant->email = $request->email;
-        $adherant->password = Hash::make($request->password);
-        $adherant->nom = $request->nom;
-        $adherant->prenom = $request->prenom;
-        $adherant->pseudo = $request->pseudo;
+        $adherent = new Adherent();
+        $adherent->name = $request->login;
+        $adherent->email = $request->email;
+        $adherent->password = Hash::make($request->password);
+        $adherent->nom = $request->nom;
+        $adherent->prenom = $request->prenom;
+        $adherent->pseudo = $request->pseudo;
 
-        $adherant->save();
+        $adherent->save();
+        $adherent->roles()->attach([4]);
 
-        $token = Auth::login($adherant);
+        $adherent->save();
+
+        $token = Auth::login($adherent);
         return response()->json([
             "status" => "success",
             "message" => "Adherent created successfully",
-            "adherent" => $adherant,
+            "adherent" => $adherent,
             "authorisation" => [
                 'token' => $token,
                 'type' => 'bearer'
@@ -81,6 +85,46 @@ class AdherentController extends Controller
             'status' => 'success',
             'message' => 'Successfully logged out',
         ]);
+    }
+
+    public function info($id) {
+        $userAsked = Adherent::findOrFail($id);
+        if (Gate::allows('same-user', $userAsked)) {
+            return response()->json([
+                'status' => "success",
+                'message' => 'Successfully profil info',
+                'adherent' => $userAsked,
+                'commentaires' => $userAsked->commentaires(),
+                'achats' => $userAsked->achats()
+        ], 200);
+        }
+        return response()->json([
+            'status' => "error",
+            'message' => 'Unauthorized',
+        ], 403);
+    }
+
+    public function edit(AdherentRequest $request, $id) {
+        $userAsked = Adherent::findOrFail($id);
+        if (Gate::denies('same-user', $userAsked)) {
+            return response()->json([
+            'status' => "error",
+            'message' => 'Unauthorized',
+        ], 403);
+        }
+        $userAsked->name = $request->login;
+        $userAsked->email = $request->email;
+        $userAsked->password = $request->password;
+        $userAsked->nom = $request->nom;
+        $userAsked->prenom = $request->prenom;
+        $userAsked->pseudo = $request->pseudo;
+        $userAsked->save();
+
+        return response()->json([
+            'status' => "success",
+            'message' => 'Adherent updated successfully',
+            'salle' => $userAsked
+        ], 200);
     }
 
 }

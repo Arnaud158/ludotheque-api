@@ -20,15 +20,15 @@ class RolesAdherentSeeder extends Seeder
         $admin->save();
 
         $mod = Adherent::findOrFail(2);
-        $mod->roles()->attach([1, 2, 3]);
+        $mod->roles()->attach([2, 3, 4]);
         $mod->save();
 
         $premium = Adherent::findOrFail(3);
-        $premium->roles()->attach([1, 2]);
+        $premium->roles()->attach([3, 4]);
         $premium->save();
 
         $adherent = Adherent::findOrFail(4);
-        $adherent->roles()->attach([1]);
+        $adherent->roles()->attach([4]);
         $adherent->save();
 
         for ($i = 5; $i <= AdherentsSeeder::$numberOfUserAdded + 4; $i++) {

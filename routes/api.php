@@ -22,8 +22,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::controller(AdherentController::class)->group(function () {
     Route::post('login', 'login');
     Route::post('register', 'register');
-    Route::post('logout', 'logout');
-    Route::post('refresh', 'refresh');
-    Route::get('me', 'me');
+    Route::get('logout', 'logout');
+    Route::get('info/{id}', 'info');
+    Route::post('edit/{id}', 'edit');
 });
 
