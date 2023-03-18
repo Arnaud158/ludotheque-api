@@ -24,12 +24,12 @@ class AdherentRequest extends FormRequest
     public function rules()
     {
         return [
-            'login' => "requiered|string",
-            'email' => "requiered|string",
-            'password' => "requiered|string",
-            'nom' => "requiered|string",
-            'prenom' => "requiered|string",
-            'pseudo' => "requiered|string"
+            'login' => "required|string",
+            'email' => "required|string",
+            'password' => "required|string",
+            'nom' => "required|string",
+            'prenom' => "required|string",
+            'pseudo' => "required|string"
         ];
     }
 }
