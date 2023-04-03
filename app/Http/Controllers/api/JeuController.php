@@ -491,7 +491,15 @@ class JeuController extends Controller
         ]);
     }
 
-    public function supprimerAchat(){
-
+    public function supprimerAchat(Achat $achat){
+        $user = Auth::user();
+        if(($user->roles()->where('nom', 'adhérent-premium')->exists() && $achat->user() == $user)||($user->roles()->where('nom', 'administrateur')->exists())){
+            $achat->valide = false;
+            $achat->save();
+        };
+        return response()->json([
+            "status" => "success",
+            "message" => "Achat successfully deleted"
+        ]);
     }
 }
