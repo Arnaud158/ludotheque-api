@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AdherentController;
-use App\Http\Controllers\api\JeuController;
+use App\Http\Controllers\Api\JeuController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

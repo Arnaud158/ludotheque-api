@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AchatRequest;
 use App\Http\Requests\JeuRequest;
 use App\Http\Resources\JeuResource;
 use App\Models\Achat;
-use App\Models\Adherent;
 use App\Models\Jeu;
-use App\Models\Tache;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
