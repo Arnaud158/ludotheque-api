@@ -1,0 +1,221 @@
+openapi: 3.0.0
+info:
+  title: 'Ludotech API'
+  description: 'Welcome to our Ludotech API!'
+  contact:
+    name: 'Jules BOBEUF, Thomas SANTORO, Arnaud FIEVET, Elsa LOGIER'
+  version: '1.0'
+servers:
+  -
+    url: 'http://127.0.0.1:8000/api'
+    description: 'Ludotech API Server'
+paths:
+  /jeux:
+    get:
+      tags:
+        - Jeu
+      summary: 'Returns the list of all Games'
+      operationId: 617e7105646c8d5ebed7a6602a41a231
+      responses:
+        '200':
+          description: 'Operation succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Jeu'
+        '401':
+          description: 'Some data are missing.'
+        '403':
+          description: 'You do not have right access'
+    post:
+      tags:
+        - Jeu
+      summary: 'Stores a game in the database.'
+      operationId: 7b1af1cd054037293f2f951da648c6e2
+      responses:
+        '200':
+          description: 'Operation succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Jeu'
+        '401':
+          description: 'Some data are missing.'
+        '403':
+          description: 'You do not have right access'
+  '/jeux/{id}':
+    get:
+      tags:
+        - Jeu
+      summary: 'Returns all the informations about one specific game.'
+      operationId: da9fb081c01c058d18f73a85d213c771
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Jeu id'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Operation succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Jeu'
+        '401':
+          description: 'Some data are missing.'
+        '403':
+          description: 'You do not have right access'
+    put:
+      tags:
+        - Jeu
+      summary: 'Updates the informations of a game.'
+      operationId: de578ed81262eeb5d883fc082b1b7564
+      responses:
+        '200':
+          description: 'Operation succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Jeu'
+        '401':
+          description: 'Some data are missing.'
+        '403':
+          description: 'You do not have right access'
+    delete:
+      tags:
+        - Jeu
+      summary: 'Deletes a game.'
+      operationId: ad5a9127a1998ec3d9b92f5f2f5ce7a0
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Jeu id'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Operation succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Jeu'
+        '401':
+          description: 'Some data are missing.'
+        '403':
+          description: 'You do not have right access'
+  /jeux/listejeu:
+    post:
+      tags:
+        - Jeu
+      summary: "IF THE USER IS NOT CONNECTED :\n                   Returns the informations about 5 games picked randomly in the database.\n                   IF THE USER IS CONNECTED :\n                   Returns the informations about all games that fullfil the parameters given.\n           "
+      operationId: 69ad86e817f4a227bd35b86c4687c4de
+      parameters:
+        -
+          name: age
+          in: path
+          description: 'youngest age required to play'
+          required: false
+          schema:
+            type: integer
+        -
+          name: duree
+          in: path
+          description: 'shorter amount of time it takes to play the game.'
+          required: false
+          schema:
+            type: string
+        -
+          name: nb_joueurs_min
+          in: path
+          description: 'smallest amount of players required to play the game'
+          required: false
+          schema:
+            type: integer
+        -
+          name: nb_joueurs_max
+          in: path
+          description: 'highest amount of players required to play the game'
+          required: false
+          schema:
+            type: integer
+        -
+          name: sort
+          in: path
+          description: 'How you want the games to be sorted (asc, desc)'
+          required: false
+          schema:
+            type: string
+        -
+          name: editeur
+          in: path
+          description: 'Choose the editor of the games that will be returned.'
+          required: false
+          schema:
+            type: string
+        -
+          name: theme
+          in: path
+          description: 'Choose the theme of the games that will be returned.'
+          required: false
+          schema:
+            type: string
+        -
+          name: categorie
+          in: path
+          description: 'Choose the category of the games that will be returned.'
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Operation succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Jeu'
+        '401':
+          description: 'Some data are missing.'
+        '403':
+          description: 'You do not have right access'
+components:
+  schemas:
+    Jeu:
+      properties:
+        id:
+          type: integer
+        nom:
+          type: string
+        description:
+          type: string
+        regles:
+          type: string
+        langue:
+          type: string
+        url_media:
+          type: string
+        age_min:
+          type: integer
+        nombre_joueurs_min:
+          type: integer
+        nombre_joueurs_max:
+          type: integer
+        duree_partie:
+          type: integer
+        valide:
+          type: boolean
+        categorie_id:
+          type: integer
+        theme_id:
+          type: integer
+        editeur_id:
+          type: integer
+      type: object
+tags:
+  -
+    name: Games
+    description: 'Operations related to games.'
