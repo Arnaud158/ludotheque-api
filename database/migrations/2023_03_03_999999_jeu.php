@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('age_min');
             $table->integer('nombre_joueurs_min');
             $table->integer('nombre_joueurs_max');
-            $table->string('duree_partie',50);
+            $table->integer('duree_partie');
             $table->boolean('valide')->default(true);
             $table->unsignedBigInteger('categorie_id');
             $table->unsignedBigInteger('theme_id');

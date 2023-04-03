@@ -17,5 +17,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-// TODO J03.1
+Route::get('/swagger', function () {
+    return view('swagger');
+});
