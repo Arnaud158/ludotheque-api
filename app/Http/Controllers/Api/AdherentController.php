@@ -114,7 +114,7 @@ class AdherentController extends Controller
         }
         $userAsked->name = $request->login;
         $userAsked->email = $request->email;
-        $userAsked->password = $request->password;
+        $userAsked->password = Hash::make($request->password);
         $userAsked->nom = $request->nom;
         $userAsked->prenom = $request->prenom;
         $userAsked->pseudo = $request->pseudo;
