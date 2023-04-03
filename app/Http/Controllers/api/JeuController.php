@@ -484,17 +484,17 @@ class JeuController extends Controller
         return response()->json([
             'status' => "success",
             'message' => "Full info of game",
-            "achats" => "",
-            "commentaires" =>  "",
-            "jeu" => "",
-            "nb_likes" => ""
+            "achats" => "",  //TODO
+            "commentaires" =>  $jeu->commentaires,
+            "jeu" => $jeu,
+            "nb_likes" => $jeu->likes
         ]);
     }
 
     public function supprimerAchat(Achat $achat){
         $user = Auth::user();
         if(($user->roles()->where('nom', 'adhérent-premium')->exists() && $achat->user() == $user)||($user->roles()->where('nom', 'administrateur')->exists())){
-            $achat->valide = false;
+            $achat->delete();
             $achat->save();
         };
         return response()->json([
