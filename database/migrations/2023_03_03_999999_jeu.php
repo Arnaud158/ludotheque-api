@@ -18,11 +18,11 @@ return new class extends Migration
             $table->string('description', 200);
             $table->string('regles', 200);
             $table->string('langue',50);
-            $table->string('url_media', 100);
+            $table->string('url_media', 100)->default("/public/JeuDefaut.jpg");
             $table->integer('age_min');
             $table->integer('nombre_joueurs_min');
             $table->integer('nombre_joueurs_max');
-            $table->string('duree_partie',50);
+            $table->integer('duree_partie');
             $table->boolean('valide')->default(true);
             $table->unsignedBigInteger('categorie_id');
             $table->unsignedBigInteger('theme_id');

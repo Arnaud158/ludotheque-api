@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AdherentController;
+use App\Http\Controllers\api\JeuController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,3 +28,6 @@ Route::controller(AdherentController::class)->group(function () {
     Route::post('edit/{id}', 'edit');
 });
 
+Route::apiResource('jeux',JeuController::class); // a modif
+
+Route::post('jeux/listejeu', [JeuController::class,'listeJeu'])->name('jeux.listeJeu');
