@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AdherentController;
 use App\Http\Controllers\api\JeuController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +18,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::controller(AdherentController::class)->group(function () {
+    Route::post('login', 'login');
+    Route::post('register', 'register');
+    Route::get('logout', 'logout');
+    Route::get('info/{id}', 'info');
+    Route::post('edit/{id}', 'edit');
 });
 
 Route::apiResource('jeux',JeuController::class); // a modif
