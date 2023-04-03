@@ -26,6 +26,7 @@ Route::controller(AdherentController::class)->group(function () {
     Route::get('logout', 'logout');
     Route::get('info/{id}', 'info');
     Route::post('edit/{id}', 'edit');
+    Route::post('avatar/{id}', 'avatar');
 });
 
 Route::apiResource('jeux',JeuController::class); // a modif
