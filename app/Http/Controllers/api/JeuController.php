@@ -7,6 +7,7 @@ use App\Http\Requests\AchatRequest;
 use App\Http\Requests\JeuRequest;
 use App\Http\Resources\JeuResource;
 use App\Models\Achat;
+use App\Models\Adherent;
 use App\Models\Jeu;
 use App\Models\Tache;
 use Exception;
@@ -453,5 +454,52 @@ class JeuController extends Controller
                 "url_media" => $jeu->url_media
             ]);
         }
+    }
+
+    public function achetJeu(AchatRequest $request, $idJeu){
+            $jeu = Jeu::findOrFail($idJeu);
+            $adherent = Auth::user();
+            if($jeu->valide == true);
+        {
+            $achat = new Achat();
+            $achat->date_achat = $request->date_achat;
+            $achat->lieu_achat = $request->lieu_achat;
+            $achat->prix = $request->prix;
+            $achat->adherent_id = $adherent->id;
+            $achat->jeu_id = $idJeu;
+            $achat->save();
+        }
+        return response()->json([
+            'status' => "success",
+            'message' => "Purchase created successfully",
+            "achat" => $achat,
+            "adherent" => $adherent,
+            "jeu" => $jeu
+        ]);
+
+    }
+
+    public function detailJeu($idJeu){
+        $jeu = Jeu::findOrFail($idJeu);
+        return response()->json([
+            'status' => "success",
+            'message' => "Full info of game",
+            "achats" => "",  //TODO
+            "commentaires" =>  $jeu->commentaires,
+            "jeu" => $jeu,
+            "nb_likes" => $jeu->likes
+        ]);
+    }
+
+    public function supprimerAchat(Achat $achat){
+        $user = Auth::user();
+        if(($user->roles()->where('nom', 'adhérent-premium')->exists() && $achat->user() == $user)||($user->roles()->where('nom', 'administrateur')->exists())){
+            $achat->delete();
+            $achat->save();
+        };
+        return response()->json([
+            "status" => "success",
+            "message" => "Achat successfully deleted"
+        ]);
     }
 }
