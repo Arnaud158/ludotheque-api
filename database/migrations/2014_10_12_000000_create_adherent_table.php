@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('mot_de_passe');
-            $table->boolean('valide');
+            $table->string('password');
+            $table->boolean('valide')->default(true);
             $table->string('nom',50);
             $table->string('prenom',50);
             $table->string('pseudo',50);

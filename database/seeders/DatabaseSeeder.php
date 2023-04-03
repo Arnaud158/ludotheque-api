@@ -15,6 +15,15 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 
+        // \App\Models\Adherent::factory()->create([
+        //     'name' => 'Test Adherent',
+        //     'email' => 'test@example.com',
+        // ]);
+
+        $this->call(RolesSeeder::class);
+        $this->call(AdherentsSeeder::class);
+        $this->call(RolesAdherentSeeder::class);
+
         $this->call(CategorieSeeder::class);
         $this->call(ThemeSeeder::class);
         $this->call(EditeurSeeder::class);
