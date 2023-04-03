@@ -456,16 +456,16 @@ class JeuController extends Controller
         }
     }
 
-    public function achetJeu(AchatRequest $request, $idJeu , $idAdherent){
+    public function achetJeu(AchatRequest $request, $idJeu){
             $jeu = Jeu::findOrFail($idJeu);
-            $adherent = Adherent::findOrFail($idAdherent);
+            $adherent = Auth::user();
             if($jeu->valide == true);
         {
             $achat = new Achat();
             $achat->date_achat = $request->date_achat;
             $achat->lieu_achat = $request->lieu_achat;
             $achat->prix = $request->prix;
-            $achat->adherent_id = $idAdherent;
+            $achat->adherent_id = $adherent->id;
             $achat->jeu_id = $idJeu;
             $achat->save();
         }
@@ -489,5 +489,9 @@ class JeuController extends Controller
             "jeu" => "",
             "nb_likes" => ""
         ]);
+    }
+
+    public function supprimerAchat(){
+
     }
 }
