@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('nom',50);
             $table->string('prenom',50);
             $table->string('pseudo',50);
-            $table->string('avatar',100)->default('avatar_default.png');
+            $table->string('avatar',100)->default('avatars/user-default.svg');
             $table->rememberToken();
             $table->timestamps();
         });

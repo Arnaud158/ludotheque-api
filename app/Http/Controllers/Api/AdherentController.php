@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class AdherentController extends Controller
 {
@@ -125,6 +126,51 @@ class AdherentController extends Controller
             'message' => 'Adherent updated successfully',
             'salle' => $userAsked
         ], 200);
+    }
+
+    public function avatar(Request $request, $id) {
+        $userAsked = Adherent::findOrFail($id);
+        if (Gate::denies('same-user', $userAsked)) {
+            return response()->json([
+            'status' => "error",
+            'message' => 'Unauthorized',
+        ], 403);
+        }
+
+        if (!$request->hasFile("avatar")) {
+            return response()->json([
+            'status' => "error",
+            'message' => 'avatar not send'
+        ], 422);
+        }
+
+        $file = $request->file('avatar');
+
+        if (!$file->isValid()) {
+            return response()->json([
+            'status' => "error",
+            'message' => 'upload failed'
+        ], 422);
+        }
+
+        $nom = 'avatar';
+        $now = time();
+        $nom = sprintf("%s_%d.%s", $nom, $now, $file->extension());
+
+        $file->storeAs('avatars', $nom);
+
+        if ($userAsked->avatar != 'avatars/user-default.svg') {
+            Storage::delete($userAsked->avatar);
+        }
+        $userAsked->avatar = 'avatars/'.$nom;
+        $userAsked->save();
+
+        return response()->json([
+            'status' => "success",
+            'message' => 'Adherent avatar updated successfully',
+            "url_media"=> $userAsked->avatar
+        ], 200);
+
     }
 
 }
