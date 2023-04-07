@@ -1,21 +1,118 @@
 openapi: 3.0.0
 info:
-  title: 'Ludotech API'
-  description: 'Welcome to our Ludotech API!'
+  title: 'Serveur API Documentation'
+  description: 'Serveur API Documentation.'
   contact:
-    name: 'Jules BOBEUF, Thomas SANTORO, Arnaud FIEVET, Elsa LOGIER'
-  version: '1.0'
+    name: 'Elsa Logier & Arnaud Fievet & Jules Bobeuf & Thomas Santoro'
+    email: thomas_santoro@ens.univ-artois.fr
+  license:
+    name: 'Apache 2.0'
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+  version: 1.0.0
 servers:
+  -
+    url: /api
+    description: 'OpenApi host'
   -
     url: 'http://127.0.0.1:8000/api'
     description: 'Ludotech API Server'
 paths:
+  /api/Register:
+    post:
+      tags:
+        - Adherent
+      summary: 'User Register'
+      description: 'Register User Here'
+      operationId: authRegister
+      requestBody:
+        content:
+          application/json:
+            schema: {  }
+      responses:
+        '200':
+          description: 'Adherent created successfully'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Adherent'
+  /api/login:
+    post:
+      tags:
+        - Adherent
+      summary: 'User Login'
+      description: 'Login User Here'
+      operationId: authLogin
+      requestBody:
+        content:
+          application/json:
+            schema: {  }
+      responses:
+        '200':
+          description: 'Adherent logged successfully'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Adherent'
+        '401':
+          description: Unauthorized
+  /api/logout:
+    get:
+      tags:
+        - Adherent
+      summary: 'User Logout'
+      description: 'User Logout here'
+      operationId: Logout
+      responses:
+        '200':
+          description: 'Successfully logged out'
+  /api/info:
+    get:
+      tags:
+        - Adherent
+      summary: 'User info'
+      description: 'User info here'
+      operationId: Info
+      responses:
+        '200':
+          description: 'Successfully logged out'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Achat'
+        '403':
+          description: Unauthorized
+  /api/Edit:
+    post:
+      tags:
+        - Adherent
+      summary: 'User Edit'
+      description: 'Edit User Here'
+      operationId: authEdit
+      requestBody:
+        content:
+          application/json:
+            schema: {  }
+      responses:
+        '200':
+          description: 'Adherent updated successfully'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Adherent'
   /jeux:
     get:
       tags:
         - Jeu
       summary: 'Returns the list of all Games'
-      operationId: 617e7105646c8d5ebed7a6602a41a231
+      operationId: 77f09179f9f3549bb667af605318025b
       responses:
         '200':
           description: 'Operation succeeded.'
@@ -31,7 +128,7 @@ paths:
       tags:
         - Jeu
       summary: 'Stores a game in the database.'
-      operationId: 7b1af1cd054037293f2f951da648c6e2
+      operationId: 4901389cdc5e702df039ec75129d07ea
       responses:
         '200':
           description: 'Operation succeeded.'
@@ -48,7 +145,7 @@ paths:
       tags:
         - Jeu
       summary: 'Returns all the informations about one specific game.'
-      operationId: da9fb081c01c058d18f73a85d213c771
+      operationId: a4931b787497aef269555e82b8f5e743
       parameters:
         -
           name: id
@@ -72,7 +169,7 @@ paths:
       tags:
         - Jeu
       summary: 'Updates the informations of a game.'
-      operationId: de578ed81262eeb5d883fc082b1b7564
+      operationId: 36d6e27d4fab869a1ac71fb07cc2be2d
       responses:
         '200':
           description: 'Operation succeeded.'
@@ -88,7 +185,7 @@ paths:
       tags:
         - Jeu
       summary: 'Deletes a game.'
-      operationId: ad5a9127a1998ec3d9b92f5f2f5ce7a0
+      operationId: dc08d97af05632d038c97fafc4c0f081
       parameters:
         -
           name: id
@@ -113,7 +210,7 @@ paths:
       tags:
         - Jeu
       summary: "IF THE USER IS NOT CONNECTED :\n                   Returns the informations about 5 games picked randomly in the database.\n                   IF THE USER IS CONNECTED :\n                   Returns the informations about all games that fullfil the parameters given.\n           "
-      operationId: 69ad86e817f4a227bd35b86c4687c4de
+      operationId: 39fe80aab3e4712afa3049831878354a
       parameters:
         -
           name: age
@@ -184,6 +281,67 @@ paths:
           description: 'You do not have right access'
 components:
   schemas:
+    Adherent:
+      required:
+        - id
+        - name
+        - email
+        - password
+        - nom
+        - prenom
+        - pseudo
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        nom:
+          type: string
+        prenom:
+          type: string
+        pseudo:
+          type: string
+      type: object
+    Commentaire:
+      required:
+        - id
+        - commentaire
+        - date_com
+        - note
+        - etat
+      properties:
+        id:
+          type: integer
+        commentaire:
+          type: string
+        date_com:
+          type: string
+          format: date
+        note:
+          type: integer
+        etat:
+          type: string
+      type: object
+    Achat:
+      required:
+        - id
+        - date_achat
+        - lieu_achat
+        - prix
+      properties:
+        id:
+          type: integer
+        date_achat:
+          type: string
+        lieu_achat:
+          type: string
+        prix:
+          type: integer
+      type: object
     Jeu:
       properties:
         id:
