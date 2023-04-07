@@ -321,7 +321,7 @@ class AdherentController extends Controller
      * summary="User Avatar",
      * description="Avatar User Here",
      *     @OA\RequestBody(
-     *     // TODO
+     *     @OA\Property(property="avatar", type="string"),
      *    ),
      *      @OA\Response(
      *          response=200,

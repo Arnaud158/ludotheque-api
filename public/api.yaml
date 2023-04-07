@@ -107,6 +107,19 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Adherent'
+  /api/Avatar:
+    post:
+      tags:
+        - Adherent
+      summary: 'User Avatar'
+      description: 'Avatar User Here'
+      operationId: authAvatar
+      requestBody: {  }
+      responses:
+        '200':
+          description: 'Adherent avatar updated successfully'
+        '422':
+          description: 'Adherent avatar updated successfully'
   /jeux:
     get:
       tags:
@@ -279,6 +292,63 @@ paths:
           description: 'Some data are missing.'
         '403':
           description: 'You do not have right access'
+  /commentaire/store:
+    post:
+      tags:
+        - Commentaire
+      summary: 'Create commentary.'
+      description: 'This method create a commentary with date and mark'
+      operationId: storeCommentary
+      requestBody:
+        description: 'Elements of the commentary'
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                commentaire:
+                  type: string
+                date_com:
+                  type: string
+                  format: date
+                note:
+                  type: integer
+              type: object
+      responses:
+        '200':
+          description: 'Comment created successfully'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Commentaire'
+  /commentaire/update:
+    put:
+      tags:
+        - Commentaire
+      summary: 'Update commentary.'
+      description: 'This method update a commentary'
+      operationId: updateCommentary
+      responses:
+        '200':
+          description: 'Comment updated successfully'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Commentaire'
+  /commentaire/destroy:
+    delete:
+      tags:
+        - Commentaire
+      summary: 'Delete commentary.'
+      description: 'This method delete commentary'
+      operationId: destroyCommentary
+      responses:
+        '200':
+          description: 'Comment successfully deleted'
 components:
   schemas:
     Adherent:
@@ -372,6 +442,23 @@ components:
           type: integer
         editeur_id:
           type: integer
+      type: object
+    Commentary:
+      required:
+        - commentaire
+        - date_com
+        - note
+        - etat
+      properties:
+        commentaire:
+          type: string
+        date_com:
+          type: string
+          format: date
+        note:
+          type: integer
+        etat:
+          type: string
       type: object
 tags:
   -
