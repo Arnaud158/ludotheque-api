@@ -36,7 +36,9 @@ class AdherentController extends Controller
      *               @OA\Property(property="name", type="text"),
      *               @OA\Property(property="email", type="text"),
      *               @OA\Property(property="password", type="password"),
-     *               @OA\Property(property="password_confirmation", type="password")
+     *               @OA\Property(property="nom", type="password"),
+     *               @OA\Property(property="prenom", type="password"),
+     *               @OA\Property(property="pseudo", type="password")
      *            ),
      *        ),
      *    ),
