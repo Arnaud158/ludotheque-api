@@ -12,6 +12,63 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ *  @OA\OpenApi(
+ *      @OA\Info(
+ *          version="1.0.0",
+ *          title="Serveur API Documentation",
+ *          description="Serveur API Documentation.",
+ *          @OA\Contact(
+ *              name="Elsa Logier & Arnaud Fievet & Jules Bobeuf & Thomas Santoro",
+ *              email="thomas_santoro@ens.univ-artois.fr"
+ *          ),
+ *          @OA\License(
+ *              name="Apache 2.0",
+ *              url="http://www.apache.org/licenses/LICENSE-2.0.html"
+ *          )
+ *      )
+ *  )
+ *
+ *  @OA\Server(
+ *      url="/api",
+ *      description="OpenApi host"
+ *  )
+ *
+ *  @OA\Schema(
+ *      schema="Adherent",
+ *      type="object",
+ *      required={"id","name","email", "password", "nom", "prenom", "pseudo"},
+ *      @OA\Property(property="id", type="int"),
+ *      @OA\Property(property="name", type="string"),
+ *      @OA\Property(property="email", type="string"),
+ *      @OA\Property(property="password", type="string"),
+ *      @OA\Property(property="nom", type="string"),
+ *      @OA\Property(property="prenom", type="string"),
+ *      @OA\Property(property="pseudo", type="string")
+ * )
+ *
+ *  @OA\Schema(
+ *      schema="Commentaire",
+ *      type="object",
+ *      required={"id","commentaire","date_com", "note", "etat"},
+ *      @OA\Property(property="id", type="int"),
+ *      @OA\Property(property="commentaire", type="string"),
+ *      @OA\Property(property="date_com", type="date"),
+ *      @OA\Property(property="note", type="int"),
+ *      @OA\Property(property="etat", type="string")
+ * )
+ *
+ *  @OA\Schema(
+ *      schema="Achat",
+ *      type="object",
+ *      required={"id","date_achat","lieu_achat", "prix"},
+ *      @OA\Property(property="id", type="int"),
+ *      @OA\Property(property="date_achat", type="string"),
+ *      @OA\Property(property="lieu_achat", type="string"),
+ *      @OA\Property(property="prix", type="int")
+ * )
+ *
+ */
 class AdherentController extends Controller
 {
     public function __construct()
@@ -20,10 +77,34 @@ class AdherentController extends Controller
     }
 
     /**
-     * Create a user
-     *
-     * @param AdherentRequest $request
-     * @return JsonResponse
+     * @OA\Post(
+     * path="/api/Register",
+     * operationId="authRegister",
+     * tags={"Adherent"},
+     * summary="User Register",
+     * description="Register User Here",
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(),
+     *            @OA\Schema(
+     *               type="object",
+     *               required={"name","email","password","nom","prenom","pseudo"},
+     *               @OA\Property(property="name", type="string"),
+     *               @OA\Property(property="email", type="string"),
+     *               @OA\Property(property="password", type="string"),
+     *               @OA\Property(property="nom", type="string"),
+     *               @OA\Property(property="prenom", type="string"),
+     *               @OA\Property(property="pseudo", type="string")
+     *            ),
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Adherent created successfully",
+     *          @OA\JsonContent(
+     *            type="array",
+     *            @OA\Items(ref="#/components/schemas/Adherent")
+     *         )
+     *      ),
+     * )
      */
     public function register(AdherentRequest $request)
     {
@@ -52,6 +133,37 @@ class AdherentController extends Controller
         ], 200);
     }
 
+    /**
+     * @OA\Post(
+     * path="/api/login",
+     * operationId="authLogin",
+     * tags={"Adherent"},
+     * summary="User Login",
+     * description="Login User Here",
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(),
+     *            @OA\Schema(
+     *               type="object",
+     *               required={"email", "password"},
+     *               @OA\Property(property="email", type="string"),
+     *               @OA\Property(property="password", type="string")
+     *            ),
+     *    ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Adherent logged successfully",
+     *          @OA\JsonContent(
+     *            type="array",
+     *            @OA\Items(ref="#/components/schemas/Adherent")
+     *         )
+     *       ),
+     *
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized"
+     *       )
+     * )
+     */
     public function login(Request $request)
     {
         $request->validate([
@@ -80,6 +192,19 @@ class AdherentController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Get(
+     * path="/api/logout",
+     * operationId="Logout",
+     * tags={"Adherent"},
+     * summary="User Logout",
+     * description="User Logout here",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successfully logged out",
+     *      )
+     *   )
+     */
     public function logout() {
         Auth::logout();
         return response()->json([
@@ -88,6 +213,36 @@ class AdherentController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Get(
+     * path="/api/info",
+     * operationId="Info",
+     * tags={"Adherent"},
+     * summary="User info",
+     * description="User info here",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successfully logged out",
+     *          @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/Adherent")
+     *         ),
+     *          @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/Commentaire")
+     *         ),
+     *          @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/Achat")
+     *         )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=403,
+     *          description="Unauthorized",
+     *      )
+     *   )
+     */
     public function info($id) {
         $userAsked = Adherent::findOrFail($id);
         if (Gate::allows('same-user', $userAsked)) {
@@ -105,6 +260,36 @@ class AdherentController extends Controller
         ], 403);
     }
 
+    /**
+     * @OA\Post(
+     * path="/api/Edit",
+     * operationId="authEdit",
+     * tags={"Adherent"},
+     * summary="User Edit",
+     * description="Edit User Here",
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(),
+     *            @OA\Schema(
+     *               type="object",
+     *               required={"name","email","password","nom","prenom","pseudo"},
+     *               @OA\Property(property="name", type="text"),
+     *               @OA\Property(property="email", type="text"),
+     *               @OA\Property(property="password", type="password"),
+     *               @OA\Property(property="nom", type="text"),
+     *               @OA\Property(property="prenom", type="text"),
+     *               @OA\Property(property="pseudo", type="text")
+     *            ),
+     *    ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Adherent updated successfully",
+     *          @OA\JsonContent(
+     *            type="array",
+     *            @OA\Items(ref="#/components/schemas/Adherent")
+     *         )
+     *       )
+     * )
+     */
     public function edit(AdherentRequest $request, $id) {
         $userAsked = Adherent::findOrFail($id);
         if (Gate::denies('same-user', $userAsked)) {
@@ -128,6 +313,26 @@ class AdherentController extends Controller
         ], 200);
     }
 
+    /**
+     * @OA\Post(
+     * path="/api/Avatar",
+     * operationId="authAvatar",
+     * tags={"Adherent"},
+     * summary="User Avatar",
+     * description="Avatar User Here",
+     *     @OA\RequestBody(
+     *     @OA\Property(property="avatar", type="string"),
+     *    ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Adherent avatar updated successfully",
+     *       ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Adherent avatar updated successfully",
+     *       )
+     * )
+     */
     public function avatar(Request $request, $id) {
         $userAsked = Adherent::findOrFail($id);
         if (Gate::denies('same-user', $userAsked)) {
