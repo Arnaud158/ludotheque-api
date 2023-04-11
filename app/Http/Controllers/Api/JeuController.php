@@ -578,7 +578,7 @@ class JeuController extends Controller
     }
 
     /**
-     * @OA\Post(
+     * @OA\Get(
      *      path="/jeux/{id}",
      *      tags={"Jeu"},
      *      summary="Informations of the game",
@@ -613,7 +613,7 @@ class JeuController extends Controller
     }
 
     /**
-     * @OA\Post(
+     * @OA\Delete(
      *      path="/achat/{id}",
      *      tags={"Jeu"},
      *      summary="Deletes a purchase",
