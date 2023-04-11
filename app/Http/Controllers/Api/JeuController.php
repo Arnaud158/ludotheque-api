@@ -87,6 +87,20 @@ use Illuminate\Support\Facades\Auth;
  *          type="integer",
  *      ),
  * ),
+ *
+ *  @OA\Schema(
+ *      schema="Adherents",
+ *      type="object",
+ *      required={"id","name","email", "password", "nom", "prenom", "pseudo"},
+ *      @OA\Property(property="id", type="int"),
+ *      @OA\Property(property="name", type="string"),
+ *      @OA\Property(property="email", type="string"),
+ *      @OA\Property(property="password", type="string"),
+ *      @OA\Property(property="nom", type="string"),
+ *      @OA\Property(property="prenom", type="string"),
+ *      @OA\Property(property="pseudo", type="string")
+ * )
+ *
  */
 
 class JeuController extends Controller
@@ -158,6 +172,38 @@ class JeuController extends Controller
         return redirect()->route('$jeux.index');
     }
 
+    /**
+     * @OA\Post(
+     * path="/api/jeux",
+     * tags={"Jeu"},
+     * summary="It creates a game",
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(),
+     *            @OA\Schema(
+     *               type="object",
+     *               required={"id_jeu","nom","description","langue","url_media","age_min","nombre_joureus_min","nombre_joueurs_max","duree_partie","valide"},
+     *               @OA\Property(property="id_jeu", type="integer"),
+     *               @OA\Property(property="nom", type="string"),
+     *               @OA\Property(property="description", type="integer"),
+     *               @OA\Property(property="langue", type="string"),
+     *               @OA\Property(property="url_media", type="string"),
+     *               @OA\Property(property="age_min", type="integer"),
+     *               @OA\Property(property="nombre_joureus_min", type="integer"),
+     *               @OA\Property(property="nombre_joueurs_max", type="integer"),
+     *               @OA\Property(property="duree_partie", type="integer"),
+     *               @OA\Property(property="valide", type="boolean"),
+     *            ),
+     *    ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Game created successfully",
+     *          @OA\JsonContent(
+     *            type="array",
+     *            @OA\Items(ref="#/components/schemas/Jeu")
+     *         )
+     *       )
+     * )
+     */
     public function create(JeuRequest $request)
     {
 
@@ -383,7 +429,7 @@ class JeuController extends Controller
      *          ),
      *          @OA\Response(response="401", description="Some data are missing.",),
      *          @OA\Response(response="403", description="You do not have right access",),
-     *  ),
+     *  )
      */
     public function listeJeu(Request $request) {
         $user = Auth::check();
@@ -435,6 +481,25 @@ class JeuController extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *      path="/jeux/{id}",
+     *      tags={"Jeu"},
+     *      summary="Modifies the avatar url.",
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(),
+     *            @OA\Schema(
+     *               type="object",
+     *               required={"url_media"},
+     *               @OA\Property(property="url_media", type="string")
+     *            ),
+     *    ),
+     *          @OA\Response(
+     *              response="200", description="Game url media updated successfully"
+     *          ),
+     *          @OA\Response(response="422", description="Unprocessable content")
+     *  )
+     */
     public function modifUrl(JeuRequest $request, $id)
     {
         try {
@@ -454,7 +519,42 @@ class JeuController extends Controller
         }
     }
 
-    public function achetJeu(AchatRequest $request, $idJeu){
+    /**
+     * @OA\Post(
+     *      path="/jeux/{id}",
+     *      tags={"Jeu"},
+     *      summary="Buy a game",
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(),
+     *            @OA\Schema(
+     *               type="object",
+     *               required={"date_achat","lieu_achat","prix","adherent_id","jeu_id"},
+     *               @OA\Property(property="date_achat", type="date"),
+     *               @OA\Property(property="lieu_achat", type="string"),
+     *               @OA\Property(property="prix", type="integer"),
+     *               @OA\Property(property="adherent_id", type="integer"),
+     *               @OA\Property(property="jeu_id", type="integer")
+     *            ),
+     *    ),
+     *          @OA\Response(
+     *              response="200", description="Purchase created successfully",
+     *              @OA\JsonContent(
+     *              type="array",
+     *              @OA\Items(ref="#/components/schemas/Achat")
+     *              ),
+     *              @OA\JsonContent(
+     *              type="array",
+     *              @OA\Items(ref="#/components/schemas/Adherents")
+     *              ),
+     *              @OA\JsonContent(
+     *              type="array",
+     *              @OA\Items(ref="#/components/schemas/Jeu")
+     *              )
+     *          ),
+     *          @OA\Response(response="422", description="Unprocessable content")
+     *  )
+     */
+    public function achatJeu(AchatRequest $request, $idJeu){
             $jeu = Jeu::findOrFail($idJeu);
             $adherent = Auth::user();
             if($jeu->valide == true);
@@ -477,18 +577,52 @@ class JeuController extends Controller
 
     }
 
+    /**
+     * @OA\Post(
+     *      path="/jeux/{id}",
+     *      tags={"Jeu"},
+     *      summary="Informations of the game",
+     *          @OA\Response(
+     *              response="200", description="Full info of game",
+     *              @OA\JsonContent(
+     *              type="array",
+     *              @OA\Items(ref="#/components/schemas/Achat")
+     *              ),
+     *              @OA\JsonContent(
+     *              type="array",
+     *              @OA\Items(ref="#/components/schemas/Commentary")
+     *              ),
+     *              @OA\JsonContent(
+     *              type="array",
+     *              @OA\Items(ref="#/components/schemas/Jeu")
+     *              )
+     *          ),
+     *          @OA\Response(response="422", description="Unprocessable content")
+     *  )
+     */
     public function detailJeu($idJeu){
         $jeu = Jeu::findOrFail($idJeu);
         return response()->json([
             'status' => "success",
             'message' => "Full info of game",
-            "achats" => "",  //TODO
+            "achats" => $jeu->achats,
             "commentaires" =>  $jeu->commentaires,
             "jeu" => $jeu,
             "nb_likes" => $jeu->likes
         ]);
     }
 
+    /**
+     * @OA\Post(
+     *      path="/achat/{id}",
+     *      tags={"Jeu"},
+     *      summary="Deletes a purchase",
+     *          @OA\Response(
+     *              response="200", description="Achat successfully deleted",
+     *          ),
+     *          @OA\Response(response="422", description="Unprocessable content")
+     *  )
+     */
     public function supprimerAchat(Achat $achat){
         $user = Auth::user();
         if(($user->roles()->where('nom', 'adhérent-premium')->exists() && $achat->user() == $user)||($user->roles()->where('nom', 'administrateur')->exists())){

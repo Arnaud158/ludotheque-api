@@ -153,6 +153,25 @@ paths:
           description: 'Some data are missing.'
         '403':
           description: 'You do not have right access'
+  /api/jeux:
+    post:
+      tags:
+        - Jeu
+      summary: 'It creates a game'
+      operationId: f15c89aa1049f529724e4abd8f11e296
+      requestBody:
+        content:
+          application/json:
+            schema: {  }
+      responses:
+        '200':
+          description: 'Game created successfully'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Jeu'
   '/jeux/{id}':
     get:
       tags:
@@ -194,6 +213,20 @@ paths:
           description: 'Some data are missing.'
         '403':
           description: 'You do not have right access'
+    post:
+      tags:
+        - Jeu
+      summary: 'Modifies the avatar url.'
+      operationId: d8b2937ffff92ccec53e39e3a9e6eff6
+      requestBody:
+        content:
+          application/json:
+            schema: {  }
+      responses:
+        '200':
+          description: 'Game url media updated successfully'
+        '422':
+          description: 'Unprocessable content'
     delete:
       tags:
         - Jeu
@@ -292,6 +325,17 @@ paths:
           description: 'Some data are missing.'
         '403':
           description: 'You do not have right access'
+  '/achat/{id}':
+    post:
+      tags:
+        - Jeu
+      summary: 'Deletes a purchase'
+      operationId: 89aac6bfeb1187d7957d90177e79b4ff
+      responses:
+        '200':
+          description: 'Achat successfully deleted'
+        '422':
+          description: 'Unprocessable content'
   /commentaire/store:
     post:
       tags:
@@ -442,6 +486,31 @@ components:
           type: integer
         editeur_id:
           type: integer
+      type: object
+    Adherents:
+      required:
+        - id
+        - name
+        - email
+        - password
+        - nom
+        - prenom
+        - pseudo
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        nom:
+          type: string
+        prenom:
+          type: string
+        pseudo:
+          type: string
       type: object
     Commentary:
       required:
