@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AchatRequest;
 use App\Http\Requests\JeuRequest;
 use App\Http\Resources\JeuResource;
 use App\Models\Achat;
-use App\Models\Adherent;
 use App\Models\Jeu;
-use App\Models\Tache;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -300,7 +298,7 @@ class JeuController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/jeux/listejeu",
+     *      path="/jeu/listejeu",
      *      tags={"Jeu"},
      *      summary="IF THE USER IS NOT CONNECTED :
                    Returns the informations about 5 games picked randomly in the database.
@@ -437,7 +435,7 @@ class JeuController extends Controller
         }
     }
 
-    public function modifUrl(JeuRequest $request, $id)
+    public function modifUrl(Request $request, $id)
     {
         try {
             $jeu = Jeu::findOrFail($id);
@@ -456,19 +454,18 @@ class JeuController extends Controller
         }
     }
 
-    public function achetJeu(AchatRequest $request, $idJeu){
+    public function achatJeu(AchatRequest $request, $idJeu){
             $jeu = Jeu::findOrFail($idJeu);
             $adherent = Auth::user();
-            if($jeu->valide == true);
-        {
-            $achat = new Achat();
-            $achat->date_achat = $request->date_achat;
-            $achat->lieu_achat = $request->lieu_achat;
-            $achat->prix = $request->prix;
-            $achat->adherent_id = $adherent->id;
-            $achat->jeu_id = $idJeu;
-            $achat->save();
-        }
+            if ($jeu->valide) {
+                $achat = new Achat();
+                $achat->date_achat = $request->date_achat;
+                $achat->lieu_achat = $request->lieu_achat;
+                $achat->prix = $request->prix;
+                $achat->adherent_id = $adherent->id;
+                $achat->jeu_id = $idJeu;
+                $achat->save();
+            }
         return response()->json([
             'status' => "success",
             'message' => "Purchase created successfully",

@@ -33,9 +33,7 @@ class RolesAdherentSeeder extends Seeder
 
         for ($i = 5; $i <= AdherentsSeeder::$numberOfUserAdded + 4; $i++) {
             $user = Adherent::findOrFail($i);
-            for ($j = $i; $j <= 5; $j++) {
-                $user->roles()->attach($j);
-            }
+            $user->roles()->attach(4);
             $user->save();
         }
     }

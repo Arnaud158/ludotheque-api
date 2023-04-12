@@ -13,7 +13,7 @@ class CommentaireRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,10 +25,10 @@ class CommentaireRequest extends FormRequest
     {
         return [
             'commentaire' => 'required|string|between:1,200',
-            'date_com' => 'required|datetime',
-            'note' => 'required|number',
-            'jeu_id' => 'required|integer',
-            'adherent_id' => 'required|integer'
+            'date_com' => 'required|date',
+            'note' => 'required|integer',
+            'jeu_id' => 'required|integer|exists:jeus,id',
+            'adherent_id' => 'required|integer|exists:adherents,id'
         ];
     }
 }
