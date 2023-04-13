@@ -196,3 +196,5 @@ storage/*.key
 /.vagrant
 
 laravel
+
+composer.lock
