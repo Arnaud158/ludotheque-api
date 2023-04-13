@@ -22,5 +22,5 @@ test:
   tags:
     - "sae-s4a01"
   script:
-    - vendor/bin/phpunit --configuration phpunit.xml --colors=never
+    - vendor/bin/phpunit --colors=never
 
