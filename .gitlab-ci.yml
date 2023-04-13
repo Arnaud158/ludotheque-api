@@ -2,6 +2,7 @@ variables:
   URL_REGISTRE_IMAGE: "registre.priv.iutdelens.ovh"
   URL_DOCKERHUB: "dockerhub.priv.iutdelens.ovh"
   IMAGE : "${USER_LOGIN}/${CI_PROJECT_NAME}:${CI_COMMIT_SHORT_SHA}"
+  URL_WEBSITE : "arnaud.fievet.priv.iutdelens.ovh"
 
 image: dockerhub.priv.iutdelens.ovh/php:8.2
 
@@ -15,6 +16,7 @@ stages:
   - "test"
   - "analyse"
   - "build"
+  - "deploy"
 
 config:
   stage: config
@@ -75,3 +77,18 @@ envoi_container:
   dependencies:
     - build-image
   when: manual
+
+deploy:
+    image: dockerhub.priv.iutdelens.ovh/mmasquelin/nomad-deployer:latest
+    stage: deploy
+    tags:
+        - "sae-s4a01"
+    script:
+        - export NOMAD_ADDR=http://172.18.38.46:4646/
+        - envsubst '${CI_PROJECT_NAME} ${CI_COMMIT_SHORT_SHA} ${NEXUS_USER} ${$NEXUS_PWD} ${URL_REGISTRE} ${IMAGE} ${URL_WEBSITE}' < project.nomad > job.nomad
+        - nomad validate job.nomad
+        - nomad plan job.nomad || if [ $? -eq 255 ]; then exit 255; else echo "success"; fi
+        - nomad run job.nomad
+    rules:
+        - if: '$CI_COMMIT_REF_NAME == "main"'
+    when: manual
