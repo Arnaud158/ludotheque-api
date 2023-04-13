@@ -66,6 +66,7 @@ build-image:
 
 envoi_container:
   stage: build
+  image: dockerhub.priv.iutdelens.ovh/docker:stable
   tags:
     - "sae-s4a01"
   script:
