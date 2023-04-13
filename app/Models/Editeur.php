@@ -9,4 +9,11 @@ class Editeur extends Model
 {
     use HasFactory;
     public $timestamps = false;
+
+    protected $guarded = [];
+
+    public function adherents()
+    {
+        return $this->hasMany(Adherent::class);
+    }
 }

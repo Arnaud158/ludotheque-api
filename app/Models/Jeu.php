@@ -26,14 +26,14 @@ class Jeu extends Model
     }
 
     public function theme() {
-        return $this->hasOne('themes');
+        return $this->belongsTo(Theme::class);
     }
 
     public function editeur() {
-        return $this->hasOne('editeurs');
+        return $this->belongsTo(Editeur::class);
     }
 
-    public function categories() {
-        return $this->hasMany('categories');
+    public function categorie() {
+        return $this->hasMany(Categorie::class);
     }
 }

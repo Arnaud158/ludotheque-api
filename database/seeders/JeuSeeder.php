@@ -18,7 +18,7 @@ class JeuSeeder extends Seeder
         Jeu::factory([
             'nom' => "Echec",
             'description' => "Jeu stratégique",
-            'regles' => "Chaque pion à des mouvements différent...",
+//            'regles' => "Chaque pion à des mouvements différent...",
             'langue' => "toutes",
             'url_media' => "public/images/echec.png",
             'age_min' => 2,
@@ -33,7 +33,7 @@ class JeuSeeder extends Seeder
         Jeu::factory([
             'nom' => "Dames",
             'description' => "Jeu stratégique",
-            'regles' => "Chaque pion à des mouvements différent...",
+//            'regles' => "Chaque pion à des mouvements différent...",
             'langue' => "toutes",
             'url_media' => "public/images/dames.png",
             'age_min' => 2,
@@ -48,7 +48,7 @@ class JeuSeeder extends Seeder
         Jeu::factory([
             'nom' => "Monopoly",
             'description' => "Jeu stratégique",
-            'regles' => "Chaque pion à des mouvements différent...",
+//            'regles' => "Chaque pion à des mouvements différent...",
             'langue' => "toutes",
             'url_media' => "public/images/monopoly.png",
             'age_min' => 2,
@@ -63,7 +63,7 @@ class JeuSeeder extends Seeder
         Jeu::factory([
             'nom' => "Jeu de l'Oie",
             'description' => "Jeu stratégique",
-            'regles' => "Chaque pion à des mouvements différent...",
+//            'regles' => "Chaque pion à des mouvements différent...",
             'langue' => "toutes",
             'url_media' => "public/images/oie.png",
             'age_min' => 2,
@@ -78,7 +78,7 @@ class JeuSeeder extends Seeder
         Jeu::factory([
             'nom' => "Mysterium",
             'description' => "Jeu stratégique",
-            'regles' => "Chaque pion à des mouvements différent...",
+//            'regles' => "Chaque pion à des mouvements différent...",
             'langue' => "toutes",
             'url_media' => "public/images/echec.png",
             'age_min' => 2,
@@ -93,7 +93,7 @@ class JeuSeeder extends Seeder
         Jeu::factory([
             'nom' => "SOS Ouistiti",
             'description' => "Jeu stratégique",
-            'regles' => "Chaque pion à des mouvements différent...",
+//            'regles' => "Chaque pion à des mouvements différent...",
             'langue' => "toutes",
             'url_media' => "public/images/echec.png",
             'age_min' => 2,
