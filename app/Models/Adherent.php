@@ -44,11 +44,11 @@ class Adherent extends Authenticatable implements JWTSubject
     ];
 
     public function likes() {
-        return $this->belongsToMany(Jeu::class);
+        return $this->belongsToMany(Jeu::class, 'like');
     }
 
     public function commentaires() {
-        return $this->belongsToMany(Commentaire::class);
+        return $this->hasMany(Commentaire::class);
     }
 
     public function achats() {
@@ -80,5 +80,4 @@ class Adherent extends Authenticatable implements JWTSubject
     public function roles() {
         return $this->belongsToMany(Role::class);
     }
-
 }

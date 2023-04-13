@@ -13,7 +13,7 @@ class JeuRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -27,10 +27,10 @@ class JeuRequest extends FormRequest
             'nom' => "required|string|between:1,50",
             'description' => "required|string|between:1,50",
             'langue' => "required|string|between:1,10",
-            'age_min' => "required|number",
+            'age_min' => "required|integer",
             'nombre_joueurs_min' => "required|integer",
             'nombre_joueurs_max' => "required|integer",
-            'duree_partie' => "required|string|between:1,50",
+            'duree_partie' => "required|integer",
             'categorie' => "required|string|between:1,50",
             'theme' => "required|string|between:1,50",
             'editeur' => "required|string|between:1,50"

@@ -30,5 +30,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('same-user', function (Adherent $user, Adherent $otherUser) {
             return $user->id == $otherUser->id || $user->roles()->where('nom', 'administrateur')->exists();
         });
+
+        Gate::define('same-user-or-mod', function (Adherent $user, Adherent $otherUser) {
+            return $user->id == $otherUser->id || $user->roles()->where('nom', 'commentaire-moderateur')->exists();
+        });
     }
 }

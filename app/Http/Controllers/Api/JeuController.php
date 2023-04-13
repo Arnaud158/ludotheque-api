@@ -8,9 +8,13 @@ use App\Http\Requests\JeuRequest;
 use App\Http\Resources\JeuResource;
 use App\Models\Achat;
 use App\Models\Jeu;
+use App\Models\Categorie;
+use App\Models\Editeur;
+use App\Models\Theme;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * @OA\Tag(
@@ -140,36 +144,40 @@ class JeuController extends Controller
      */
     public function store(JeuRequest $request)
     {
-        $this->validate(
-            $request,
-            [
-                'nom' => 'required',
-                'description' => 'required',
-                'langue' => 'required',
-                'url_media' => 'required',
-                'age_min' => 'required',
-                'nombre_joureus_min' => 'required',
-                'nombre_joueurs_max' => 'required',
-                'duree_partie' => 'required',
-                'valide' => 'required',
-            ]
-        );
-
         $jeu = new Jeu;
 
         $jeu->nom = $request->nom;
         $jeu->description = $request->description;
         $jeu->langue = $request->langue;
-        $jeu->url_media = $request->url_media;
         $jeu->age_min = $request->age_min;
-        $jeu->nombre_joureus_min = $request->nombre_joureus_min;
+        $jeu->nombre_joueurs_min = $request->nombre_joueurs_min;
         $jeu->nombre_joueurs_max = $request->nombre_joueurs_max;
         $jeu->duree_partie = $request->duree_partie;
-        $jeu->valide = $request->valide;
+
+        // Gestion de la catégorie
+
+        $categorie = Categorie::where('nom', $request->categorie)->firstOrCreate(['nom' => $request->categorie]);
+        $jeu->categorie_id = $categorie->id;
+
+        // Gestion du thème
+
+        $theme = Theme::where('nom', $request->theme)->firstOrCreate(['nom' => $request->theme]);
+        $jeu->theme_id = $theme->id;
+
+        // Gestion de l'éditeur
+
+        $editeur = Editeur::where('nom', $request->editeur)->firstOrCreate(['nom' => $request->editeur]);
+        $jeu->editeur_id = $editeur->id;
+
 
         $jeu->save();
 
-        return redirect()->route('$jeux.index');
+//        return redirect()->route('$jeux.index');
+        return response()->json([
+            'status' => "success",
+            'message' => 'Game created successfully',
+            'jeu' => $jeu
+        ]);
     }
 
     /**
@@ -275,16 +283,29 @@ class JeuController extends Controller
     public function update(JeuRequest $request, $id)
     {
         try {
+
             $jeu = Jeu::findOrFail($id);
             $jeu->nom = $request->nom;
             $jeu->description = $request->description;
             $jeu->langue = $request->langue;
-            $jeu->url_media = $request->url_media;
             $jeu->age_min = $request->age_min;
-            $jeu->nombre_joureus_min = $request->nombre_joureus_min;
+            $jeu->nombre_joueurs_min = $request->nombre_joueurs_min;
             $jeu->nombre_joueurs_max = $request->nombre_joueurs_max;
             $jeu->duree_partie = $request->duree_partie;
-            $jeu->valide = $request->valide;
+            // Gestion de la catégorie
+
+            $categorie = Categorie::where('nom', $request->categorie)->firstOrCreate(['nom' => $request->categorie]);
+            $jeu->categorie_id = $categorie->id;
+
+            // Gestion du thème
+
+            $theme = Theme::where('nom', $request->theme)->firstOrCreate(['nom' => $request->theme]);
+            $jeu->theme_id = $theme->id;
+
+            // Gestion de l'éditeur
+
+            $editeur = Editeur::where('nom', $request->editeur)->firstOrCreate(['nom' => $request->editeur]);
+            $jeu->editeur_id = $editeur->id;
 
             $jeu->save();
 
@@ -344,7 +365,7 @@ class JeuController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/jeux/listejeu",
+     *      path="/jeu/listejeu",
      *      tags={"Jeu"},
      *      summary="IF THE USER IS NOT CONNECTED :
                    Returns the informations about 5 games picked randomly in the database.
@@ -436,32 +457,36 @@ class JeuController extends Controller
         if ($user) {
             $jeux = Jeu::all();
             if ($request->age !=null) {
-                $jeux = $jeux->where('age' >= $request->age);
+                $jeux = $jeux->where('age_min', ">=", $request->age);
             }
-            if ($request->duree_partie !=null) {
-                $jeux = $jeux->where('duree' >= $request->duree); // c'est un string dans l'énoncé...
+            if ($request->duree !=null) {
+                $jeux = $jeux->where('duree_partie', ">=", $request->duree); // c'est un string dans l'énoncé...
             }
             if ($request->nb_joueurs_min !=null) {
-                $jeux = $jeux->where('nombre_joueurs_min' >= $request->nombre_joueurs_min);
+                $jeux = $jeux->where('nombre_joueurs_min', ">=", $request->nb_joueurs_min);
             }
             if ($request->nb_joueurs_max !=null) {
-                $jeux = $jeux->where('nombre_joueurs_max' >= $request->nombre_joueurs_max);
+                $jeux = $jeux->where('nombre_joueurs_max', ">=", $request->nb_joueurs_max);
             }
             if ($request->sort !=null) {
-                $jeux = $jeux->sortBy($request->sort);
+                if ($request->sort == "desc") {
+                    $jeux = $jeux->sortByDesc('id');
+                } else {
+                    $jeux = $jeux->sortBy('id');
+                }
             }
 
-            if ($request->editeur !=null) {
-                $jeux = $jeux->where($jeux->editeur(), "=", $request->editeur);
-            }
-
-            if ($request->theme !=null) {
-                $jeux = $jeux->where($jeux->themes(), "=", $request->theme);
-            }
-
-            if ($request->categorie !=null) {
-                $jeux = $jeux->where($jeux->categories(), 'in', $request->categorie);
-            }
+//            if ($request->editeur !=null) {
+//                $jeux = $jeux->where($jeux->editeur, "=", $request->editeur);
+//            }
+//
+//            if ($request->theme !=null) {
+//                $jeux = $jeux->where($jeux->theme, "=", $request->theme);
+//            }
+//
+//            if ($request->categorie !=null) {
+//                $jeux = $jeux->where($jeux->categorie, '=', $request->categorie);
+//            }
 
 
             // a continuer avec categorie, theme, editeur
@@ -500,7 +525,7 @@ class JeuController extends Controller
      *          @OA\Response(response="422", description="Unprocessable content")
      *  )
      */
-    public function modifUrl(JeuRequest $request, $id)
+    public function modifUrl(Request $request, $id)
     {
         try {
             $jeu = Jeu::findOrFail($id);
@@ -554,19 +579,18 @@ class JeuController extends Controller
      *          @OA\Response(response="422", description="Unprocessable content")
      *  )
      */
-    public function achatJeu(AchatRequest $request, $idJeu){
-            $jeu = Jeu::findOrFail($idJeu);
+    public function achatJeu(AchatRequest $request){
+            $jeu = Jeu::findOrFail($request->jeu_id);
             $adherent = Auth::user();
-            if($jeu->valide == true);
-        {
-            $achat = new Achat();
-            $achat->date_achat = $request->date_achat;
-            $achat->lieu_achat = $request->lieu_achat;
-            $achat->prix = $request->prix;
-            $achat->adherent_id = $adherent->id;
-            $achat->jeu_id = $idJeu;
-            $achat->save();
-        }
+            if ($jeu->valide) {
+                $achat = new Achat();
+                $achat->date_achat = $request->date_achat;
+                $achat->lieu_achat = $request->lieu_achat;
+                $achat->prix = $request->prix;
+                $achat->adherent_id = $adherent->id;
+                $achat->jeu_id = $request->jeu_id;
+                $achat->save();
+            }
         return response()->json([
             'status' => "success",
             'message' => "Purchase created successfully",
@@ -608,7 +632,7 @@ class JeuController extends Controller
             "achats" => $jeu->achats,
             "commentaires" =>  $jeu->commentaires,
             "jeu" => $jeu,
-            "nb_likes" => $jeu->likes
+            "nb_likes" => $jeu->adherents
         ]);
     }
 
@@ -623,12 +647,21 @@ class JeuController extends Controller
      *          @OA\Response(response="422", description="Unprocessable content")
      *  )
      */
-    public function supprimerAchat(Achat $achat){
+    public function supprimerAchat($idJeu){
+
         $user = Auth::user();
-        if(($user->roles()->where('nom', 'adhérent-premium')->exists() && $achat->user() == $user)||($user->roles()->where('nom', 'administrateur')->exists())){
-            $achat->delete();
-            $achat->save();
-        };
+
+        $jeu = Jeu::findOrFail($idJeu);
+//        Achat::where([['adherent_id', "=", $user->id], ["jeu_id", "=", $idJeu]])->first()->delete();
+        Achat::destroy([$user->id, $idJeu]);
+        if (Gate::denies('same-user', $user)) {
+            return response()->json([
+                'status' => "error",
+                'message' => 'Unauthorized',
+        ], 403);
+        }
+
+
         return response()->json([
             "status" => "success",
             "message" => "Achat successfully deleted"

@@ -3,12 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Achat
+class Achat extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -22,5 +25,9 @@ class Achat
         'adherent_id',
         'jeu_id'
     ];
+
+    public function adherent() {
+        return $this->belongsTo(Adherent::class);
+    }
 
 }
