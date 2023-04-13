@@ -74,3 +74,4 @@ envoi_container:
     - docker push "$URL_REGISTRE_IMAGE/$IMAGE"
   dependencies:
     - build-image
+  when: manual
