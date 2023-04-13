@@ -44,8 +44,8 @@ Route::controller(JeuController::class)->group(function () {
     Route::post('jeu', 'store')->middleware(['auth:api', 'role:adhérent-premium'])->name("jeu.store");
     Route::match(['put', 'patch'],'jeu/{id}', 'update')->middleware(['auth:api', 'role:adhérent-premium'])->name("jeu.store");
     Route::match(['put', 'patch'],'jeu/{id}/url', 'modifUrl')->middleware(['auth:api', 'role:adhérent-premium'])->name("jeu.url");
-    Route::post('jeu/{id}/achat', 'achatJeu')->middleware(['auth:api', 'role:adhérent-premium'])->name("jeu.achat");
-    Route::delete('jeu/{id}/achat', 'supprimerAchat')->middleware(['auth:api'])->name("jeu.suprAchat");
+    Route::post('jeu/achat', 'achatJeu')->middleware(['auth:api', 'role:adhérent-premium'])->name("jeu.achat");
+    Route::delete('jeu/achat/{id}', 'supprimerAchat')->middleware(['auth:api'])->name("jeu.suprAchat");
     Route::get('jeu/{id}', 'detailJeu')->middleware(['auth:api'])->name("jeu.details");
 });
 

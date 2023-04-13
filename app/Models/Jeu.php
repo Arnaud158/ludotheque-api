@@ -11,12 +11,12 @@ class Jeu extends Model
 
     public $timestamps = false;
 
-    public function likes() {
-        return $this->belongsToMany(Adherent::class);
+    public function adherents() {
+        return $this->belongsToMany(Adherent::class, 'like');
     }
 
     public function commentaires() {
-        return $this->belongsToMany(Commentaire::class);
+        return $this->hasMany(Commentaire::class);
     }
 
     public function achats() {

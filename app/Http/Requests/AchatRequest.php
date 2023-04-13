@@ -27,7 +27,7 @@ class AchatRequest extends FormRequest
             'date_achat' => "required|string|between:1,50",
             'lieu_achat' => "required|string|between:1,50",
             'prix' => "required|string|between:1,10",
-            'adherent_id' => "required|number",
+            'adherent_id' => "required|integer",
             'jeu_id' => "required|integer"
         ];
     }

@@ -479,8 +479,8 @@ class JeuController extends Controller
         }
     }
 
-    public function achatJeu(AchatRequest $request, $idJeu){
-            $jeu = Jeu::findOrFail($idJeu);
+    public function achatJeu(AchatRequest $request){
+            $jeu = Jeu::findOrFail($request->jeu_id);
             $adherent = Auth::user();
             if ($jeu->valide) {
                 $achat = new Achat();
@@ -488,7 +488,7 @@ class JeuController extends Controller
                 $achat->lieu_achat = $request->lieu_achat;
                 $achat->prix = $request->prix;
                 $achat->adherent_id = $adherent->id;
-                $achat->jeu_id = $idJeu;
+                $achat->jeu_id = $request->jeu_id;
                 $achat->save();
             }
         return response()->json([
@@ -509,24 +509,25 @@ class JeuController extends Controller
             "achats" => $jeu->achats,
             "commentaires" =>  $jeu->commentaires,
             "jeu" => $jeu,
-            "nb_likes" => $jeu->likes
+            "nb_likes" => $jeu->adherents
         ]);
     }
 
-    public function supprimerAchat($idAchat){
+    public function supprimerAchat($idJeu){
 
-        $achat = Achat::findOrFail($idAchat);
 
         $user = Auth::user();
 
+        $jeu = Jeu::findOrFail($idJeu);
+//        Achat::where([['adherent_id', "=", $user->id], ["jeu_id", "=", $idJeu]])->first()->delete();
+        Achat::destroy([$user->id, $idJeu]);
         if (Gate::denies('same-user', $user)) {
             return response()->json([
                 'status' => "error",
                 'message' => 'Unauthorized',
         ], 403);
         }
-        $achat->delete();
-        $achat->save();
+
 
         return response()->json([
             "status" => "success",
