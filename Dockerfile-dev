@@ -1,0 +1,24 @@
+FROM dockerhub.priv.iutdelens.ovh/php:8.2
+# FROM php:8.2
+
+RUN apt-get update -y && apt-get install --no-install-recommends -y libmcrypt-dev git libzip-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN docker-php-ext-install pdo zip
+
+WORKDIR /app
+COPY . /app
+
+RUN composer install
+RUN cp .env.example .env
+RUN touch /app/database/database.sqlite
+RUN php artisan key:generate
+RUN php artisan jwt:secret
+RUN php artisan migrate:fresh
+RUN php artisan db:seed
+
+EXPOSE 8000
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
