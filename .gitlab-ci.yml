@@ -70,7 +70,7 @@ envoi_container:
   tags:
     - "sae-s4a01"
   script:
-    - echo "$PASSWORD_IUT" | docker login -u "${USER_LOGIN}" --password-stdin "$URL_REGISTRE_IMAGE"
+    - echo "$NEXUS_PWD" | docker login -u "$NEXUS_USER" --password-stdin "$URL_REGISTRE_IMAGE"
     - docker push "$URL_REGISTRE_IMAGE/$IMAGE"
   dependencies:
     - build-image
