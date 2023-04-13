@@ -1,0 +1,535 @@
+openapi: 3.0.0
+info:
+  title: 'Serveur API Documentation'
+  description: 'Serveur API Documentation.'
+  contact:
+    name: 'Elsa Logier & Arnaud Fievet & Jules Bobeuf & Thomas Santoro'
+    email: thomas_santoro@ens.univ-artois.fr
+  license:
+    name: 'Apache 2.0'
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+  version: 1.0.0
+servers:
+  -
+    url: /api
+    description: 'OpenApi host'
+  -
+    url: 'http://127.0.0.1:8000/api'
+    description: 'Ludotech API Server'
+paths:
+  /api/Register:
+    post:
+      tags:
+        - Adherent
+      summary: 'User Register'
+      description: 'Register User Here'
+      operationId: authRegister
+      requestBody:
+        content:
+          application/json:
+            schema: {  }
+      responses:
+        '200':
+          description: 'Adherent created successfully'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Adherent'
+  /api/login:
+    post:
+      tags:
+        - Adherent
+      summary: 'User Login'
+      description: 'Login User Here'
+      operationId: authLogin
+      requestBody:
+        content:
+          application/json:
+            schema: {  }
+      responses:
+        '200':
+          description: 'Adherent logged successfully'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Adherent'
+        '401':
+          description: Unauthorized
+  /api/logout:
+    get:
+      tags:
+        - Adherent
+      summary: 'User Logout'
+      description: 'User Logout here'
+      operationId: Logout
+      responses:
+        '200':
+          description: 'Successfully logged out'
+  /api/info:
+    get:
+      tags:
+        - Adherent
+      summary: 'User info'
+      description: 'User info here'
+      operationId: Info
+      responses:
+        '200':
+          description: 'Successfully logged out'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Achat'
+        '403':
+          description: Unauthorized
+  /api/Edit:
+    post:
+      tags:
+        - Adherent
+      summary: 'User Edit'
+      description: 'Edit User Here'
+      operationId: authEdit
+      requestBody:
+        content:
+          application/json:
+            schema: {  }
+      responses:
+        '200':
+          description: 'Adherent updated successfully'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Adherent'
+  /api/Avatar:
+    post:
+      tags:
+        - Adherent
+      summary: 'User Avatar'
+      description: 'Avatar User Here'
+      operationId: authAvatar
+      requestBody: {  }
+      responses:
+        '200':
+          description: 'Adherent avatar updated successfully'
+        '422':
+          description: 'Adherent avatar updated successfully'
+  /jeux:
+    get:
+      tags:
+        - Jeu
+      summary: 'Returns the list of all Games'
+      operationId: 77f09179f9f3549bb667af605318025b
+      responses:
+        '200':
+          description: 'Operation succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Jeu'
+        '401':
+          description: 'Some data are missing.'
+        '403':
+          description: 'You do not have right access'
+    post:
+      tags:
+        - Jeu
+      summary: 'Stores a game in the database.'
+      operationId: 4901389cdc5e702df039ec75129d07ea
+      responses:
+        '200':
+          description: 'Operation succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Jeu'
+        '401':
+          description: 'Some data are missing.'
+        '403':
+          description: 'You do not have right access'
+  /api/jeux:
+    post:
+      tags:
+        - Jeu
+      summary: 'It creates a game'
+      operationId: f15c89aa1049f529724e4abd8f11e296
+      requestBody:
+        content:
+          application/json:
+            schema: {  }
+      responses:
+        '200':
+          description: 'Game created successfully'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Jeu'
+  '/jeux/{id}':
+    get:
+      tags:
+        - Jeu
+      summary: 'Returns all the informations about one specific game.'
+      operationId: a4931b787497aef269555e82b8f5e743
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Jeu id'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Operation succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Jeu'
+        '401':
+          description: 'Some data are missing.'
+        '403':
+          description: 'You do not have right access'
+    put:
+      tags:
+        - Jeu
+      summary: 'Updates the informations of a game.'
+      operationId: 36d6e27d4fab869a1ac71fb07cc2be2d
+      responses:
+        '200':
+          description: 'Operation succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Jeu'
+        '401':
+          description: 'Some data are missing.'
+        '403':
+          description: 'You do not have right access'
+    post:
+      tags:
+        - Jeu
+      summary: 'Modifies the avatar url.'
+      operationId: d8b2937ffff92ccec53e39e3a9e6eff6
+      requestBody:
+        content:
+          application/json:
+            schema: {  }
+      responses:
+        '200':
+          description: 'Game url media updated successfully'
+        '422':
+          description: 'Unprocessable content'
+    delete:
+      tags:
+        - Jeu
+      summary: 'Deletes a game.'
+      operationId: dc08d97af05632d038c97fafc4c0f081
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Jeu id'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Operation succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Jeu'
+        '401':
+          description: 'Some data are missing.'
+        '403':
+          description: 'You do not have right access'
+  /jeux/listejeu:
+    post:
+      tags:
+        - Jeu
+      summary: "IF THE USER IS NOT CONNECTED :\n                   Returns the informations about 5 games picked randomly in the database.\n                   IF THE USER IS CONNECTED :\n                   Returns the informations about all games that fullfil the parameters given.\n           "
+      operationId: 39fe80aab3e4712afa3049831878354a
+      parameters:
+        -
+          name: age
+          in: path
+          description: 'youngest age required to play'
+          required: false
+          schema:
+            type: integer
+        -
+          name: duree
+          in: path
+          description: 'shorter amount of time it takes to play the game.'
+          required: false
+          schema:
+            type: string
+        -
+          name: nb_joueurs_min
+          in: path
+          description: 'smallest amount of players required to play the game'
+          required: false
+          schema:
+            type: integer
+        -
+          name: nb_joueurs_max
+          in: path
+          description: 'highest amount of players required to play the game'
+          required: false
+          schema:
+            type: integer
+        -
+          name: sort
+          in: path
+          description: 'How you want the games to be sorted (asc, desc)'
+          required: false
+          schema:
+            type: string
+        -
+          name: editeur
+          in: path
+          description: 'Choose the editor of the games that will be returned.'
+          required: false
+          schema:
+            type: string
+        -
+          name: theme
+          in: path
+          description: 'Choose the theme of the games that will be returned.'
+          required: false
+          schema:
+            type: string
+        -
+          name: categorie
+          in: path
+          description: 'Choose the category of the games that will be returned.'
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Operation succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Jeu'
+        '401':
+          description: 'Some data are missing.'
+        '403':
+          description: 'You do not have right access'
+  '/achat/{id}':
+    post:
+      tags:
+        - Jeu
+      summary: 'Deletes a purchase'
+      operationId: 89aac6bfeb1187d7957d90177e79b4ff
+      responses:
+        '200':
+          description: 'Achat successfully deleted'
+        '422':
+          description: 'Unprocessable content'
+  /commentaire/store:
+    post:
+      tags:
+        - Commentaire
+      summary: 'Create commentary.'
+      description: 'This method create a commentary with date and mark'
+      operationId: storeCommentary
+      requestBody:
+        description: 'Elements of the commentary'
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                commentaire:
+                  type: string
+                date_com:
+                  type: string
+                  format: date
+                note:
+                  type: integer
+              type: object
+      responses:
+        '200':
+          description: 'Comment created successfully'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Commentaire'
+  /commentaire/update:
+    put:
+      tags:
+        - Commentaire
+      summary: 'Update commentary.'
+      description: 'This method update a commentary'
+      operationId: updateCommentary
+      responses:
+        '200':
+          description: 'Comment updated successfully'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Commentaire'
+  /commentaire/destroy:
+    delete:
+      tags:
+        - Commentaire
+      summary: 'Delete commentary.'
+      description: 'This method delete commentary'
+      operationId: destroyCommentary
+      responses:
+        '200':
+          description: 'Comment successfully deleted'
+components:
+  schemas:
+    Adherent:
+      required:
+        - id
+        - name
+        - email
+        - password
+        - nom
+        - prenom
+        - pseudo
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        nom:
+          type: string
+        prenom:
+          type: string
+        pseudo:
+          type: string
+      type: object
+    Commentaire:
+      required:
+        - id
+        - commentaire
+        - date_com
+        - note
+        - etat
+      properties:
+        id:
+          type: integer
+        commentaire:
+          type: string
+        date_com:
+          type: string
+          format: date
+        note:
+          type: integer
+        etat:
+          type: string
+      type: object
+    Achat:
+      required:
+        - id
+        - date_achat
+        - lieu_achat
+        - prix
+      properties:
+        id:
+          type: integer
+        date_achat:
+          type: string
+        lieu_achat:
+          type: string
+        prix:
+          type: integer
+      type: object
+    Jeu:
+      properties:
+        id:
+          type: integer
+        nom:
+          type: string
+        description:
+          type: string
+        regles:
+          type: string
+        langue:
+          type: string
+        url_media:
+          type: string
+        age_min:
+          type: integer
+        nombre_joueurs_min:
+          type: integer
+        nombre_joueurs_max:
+          type: integer
+        duree_partie:
+          type: integer
+        valide:
+          type: boolean
+        categorie_id:
+          type: integer
+        theme_id:
+          type: integer
+        editeur_id:
+          type: integer
+      type: object
+    Adherents:
+      required:
+        - id
+        - name
+        - email
+        - password
+        - nom
+        - prenom
+        - pseudo
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        nom:
+          type: string
+        prenom:
+          type: string
+        pseudo:
+          type: string
+      type: object
+    Commentary:
+      required:
+        - commentaire
+        - date_com
+        - note
+        - etat
+      properties:
+        commentaire:
+          type: string
+        date_com:
+          type: string
+          format: date
+        note:
+          type: integer
+        etat:
+          type: string
+      type: object
+tags:
+  -
+    name: Games
+    description: 'Operations related to games.'
