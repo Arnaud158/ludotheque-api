@@ -1,5 +1,5 @@
-# FROM dockerhub.priv.iutdelens.ovh/webdevops/php-nginx:8.1-alpine
-FROM webdevops/php-nginx:8.1-alpine
+FROM dockerhub.priv.iutdelens.ovh/webdevops/php-nginx:8.1-alpine
+# FROM webdevops/php-nginx:8.1-alpine
 
 RUN apk add postgresql-dev libxml2-dev
 # RUN docker-php-ext-install \
