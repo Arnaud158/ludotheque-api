@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class EditeurFactory extends Factory
 {
-
     /**
      * Define the model's default state.
      *

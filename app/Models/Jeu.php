@@ -11,29 +11,35 @@ class Jeu extends Model
 
     public $timestamps = false;
 
-    public function adherents() {
+    public function adherents()
+    {
         return $this->belongsToMany(Adherent::class, 'like');
     }
 
-    public function commentaires() {
+    public function commentaires()
+    {
         return $this->hasMany(Commentaire::class);
     }
 
-    public function achats() {
-        return $this->belongsToMany(Adherent::class,'achats')
+    public function achats()
+    {
+        return $this->belongsToMany(Adherent::class, 'achats')
             ->as('achats')
-            ->withPivot('date_achat','lieu_achat','prix');
+            ->withPivot('date_achat', 'lieu_achat', 'prix');
     }
 
-    public function theme() {
+    public function theme()
+    {
         return $this->belongsTo(Theme::class);
     }
 
-    public function editeur() {
+    public function editeur()
+    {
         return $this->belongsTo(Editeur::class);
     }
 
-    public function categorie() {
+    public function categorie()
+    {
         return $this->hasMany(Categorie::class);
     }
 }

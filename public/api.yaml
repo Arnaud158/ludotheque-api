@@ -120,6 +120,63 @@ paths:
           description: 'Adherent avatar updated successfully'
         '422':
           description: 'Adherent avatar updated successfully'
+  /commentaire/store:
+    post:
+      tags:
+        - Commentaire
+      summary: 'Create commentary.'
+      description: 'This method create a commentary with date and mark'
+      operationId: storeCommentary
+      requestBody:
+        description: 'Elements of the commentary'
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                commentaire:
+                  type: string
+                date_com:
+                  type: string
+                  format: date
+                note:
+                  type: integer
+              type: object
+      responses:
+        '200':
+          description: 'Comment created successfully'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Commentaire'
+  /commentaire/update:
+    put:
+      tags:
+        - Commentaire
+      summary: 'Update commentary.'
+      description: 'This method update a commentary'
+      operationId: updateCommentary
+      responses:
+        '200':
+          description: 'Comment updated successfully'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Commentaire'
+  /commentaire/destroy:
+    delete:
+      tags:
+        - Commentaire
+      summary: 'Delete commentary.'
+      description: 'This method delete commentary'
+      operationId: destroyCommentary
+      responses:
+        '200':
+          description: 'Comment successfully deleted'
   /jeux:
     get:
       tags:
@@ -251,12 +308,12 @@ paths:
           description: 'Some data are missing.'
         '403':
           description: 'You do not have right access'
-  /jeux/listejeu:
+  /jeu/listejeu:
     post:
       tags:
         - Jeu
-      summary: "IF THE USER IS NOT CONNECTED :\n                   Returns the informations about 5 games picked randomly in the database.\n                   IF THE USER IS CONNECTED :\n                   Returns the informations about all games that fullfil the parameters given.\n           "
-      operationId: 39fe80aab3e4712afa3049831878354a
+      summary: "IF THE USER IS NOT CONNECTED :\n           "
+      operationId: 18d91c9dd870d7e99c12049d6213ed3f
       parameters:
         -
           name: age
@@ -326,73 +383,16 @@ paths:
         '403':
           description: 'You do not have right access'
   '/achat/{id}':
-    post:
+    delete:
       tags:
         - Jeu
       summary: 'Deletes a purchase'
-      operationId: 89aac6bfeb1187d7957d90177e79b4ff
+      operationId: 771c062d5e32fad164b3d5d4da863d19
       responses:
         '200':
           description: 'Achat successfully deleted'
         '422':
           description: 'Unprocessable content'
-  /commentaire/store:
-    post:
-      tags:
-        - Commentaire
-      summary: 'Create commentary.'
-      description: 'This method create a commentary with date and mark'
-      operationId: storeCommentary
-      requestBody:
-        description: 'Elements of the commentary'
-        required: true
-        content:
-          application/json:
-            schema:
-              properties:
-                commentaire:
-                  type: string
-                date_com:
-                  type: string
-                  format: date
-                note:
-                  type: integer
-              type: object
-      responses:
-        '200':
-          description: 'Comment created successfully'
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Commentaire'
-  /commentaire/update:
-    put:
-      tags:
-        - Commentaire
-      summary: 'Update commentary.'
-      description: 'This method update a commentary'
-      operationId: updateCommentary
-      responses:
-        '200':
-          description: 'Comment updated successfully'
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Commentaire'
-  /commentaire/destroy:
-    delete:
-      tags:
-        - Commentaire
-      summary: 'Delete commentary.'
-      description: 'This method delete commentary'
-      operationId: destroyCommentary
-      responses:
-        '200':
-          description: 'Comment successfully deleted'
 components:
   schemas:
     Adherent:
@@ -456,6 +456,23 @@ components:
         prix:
           type: integer
       type: object
+    Commentary:
+      required:
+        - commentaire
+        - date_com
+        - note
+        - etat
+      properties:
+        commentaire:
+          type: string
+        date_com:
+          type: string
+          format: date
+        note:
+          type: integer
+        etat:
+          type: string
+      type: object
     Jeu:
       properties:
         id:
@@ -510,23 +527,6 @@ components:
         prenom:
           type: string
         pseudo:
-          type: string
-      type: object
-    Commentary:
-      required:
-        - commentaire
-        - date_com
-        - note
-        - etat
-      properties:
-        commentaire:
-          type: string
-        date_com:
-          type: string
-          format: date
-        note:
-          type: integer
-        etat:
           type: string
       type: object
 tags:

@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Jeu;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class JeuSeeder extends Seeder
@@ -16,11 +15,11 @@ class JeuSeeder extends Seeder
     public function run()
     {
         Jeu::factory([
-            'nom' => "Echec",
-            'description' => "Jeu stratégique",
-//            'regles' => "Chaque pion à des mouvements différent...",
-            'langue' => "toutes",
-            'url_media' => "public/images/echec.png",
+            'nom' => 'Echec',
+            'description' => 'Jeu stratégique',
+            //            'regles' => "Chaque pion à des mouvements différent...",
+            'langue' => 'toutes',
+            'url_media' => 'public/images/echec.png',
             'age_min' => 2,
             'nombre_joueurs_min' => 2,
             'nombre_joueurs_max' => 2,
@@ -31,11 +30,11 @@ class JeuSeeder extends Seeder
         ])->create();
 
         Jeu::factory([
-            'nom' => "Dames",
-            'description' => "Jeu stratégique",
-//            'regles' => "Chaque pion à des mouvements différent...",
-            'langue' => "toutes",
-            'url_media' => "public/images/dames.png",
+            'nom' => 'Dames',
+            'description' => 'Jeu stratégique',
+            //            'regles' => "Chaque pion à des mouvements différent...",
+            'langue' => 'toutes',
+            'url_media' => 'public/images/dames.png',
             'age_min' => 2,
             'nombre_joueurs_min' => 2,
             'nombre_joueurs_max' => 2,
@@ -46,11 +45,11 @@ class JeuSeeder extends Seeder
         ])->create();
 
         Jeu::factory([
-            'nom' => "Monopoly",
-            'description' => "Jeu stratégique",
-//            'regles' => "Chaque pion à des mouvements différent...",
-            'langue' => "toutes",
-            'url_media' => "public/images/monopoly.png",
+            'nom' => 'Monopoly',
+            'description' => 'Jeu stratégique',
+            //            'regles' => "Chaque pion à des mouvements différent...",
+            'langue' => 'toutes',
+            'url_media' => 'public/images/monopoly.png',
             'age_min' => 2,
             'nombre_joueurs_min' => 2,
             'nombre_joueurs_max' => 2,
@@ -62,10 +61,10 @@ class JeuSeeder extends Seeder
 
         Jeu::factory([
             'nom' => "Jeu de l'Oie",
-            'description' => "Jeu stratégique",
-//            'regles' => "Chaque pion à des mouvements différent...",
-            'langue' => "toutes",
-            'url_media' => "public/images/oie.png",
+            'description' => 'Jeu stratégique',
+            //            'regles' => "Chaque pion à des mouvements différent...",
+            'langue' => 'toutes',
+            'url_media' => 'public/images/oie.png',
             'age_min' => 2,
             'nombre_joueurs_min' => 2,
             'nombre_joueurs_max' => 5,
@@ -76,11 +75,11 @@ class JeuSeeder extends Seeder
         ])->create();
 
         Jeu::factory([
-            'nom' => "Mysterium",
-            'description' => "Jeu stratégique",
-//            'regles' => "Chaque pion à des mouvements différent...",
-            'langue' => "toutes",
-            'url_media' => "public/images/echec.png",
+            'nom' => 'Mysterium',
+            'description' => 'Jeu stratégique',
+            //            'regles' => "Chaque pion à des mouvements différent...",
+            'langue' => 'toutes',
+            'url_media' => 'public/images/echec.png',
             'age_min' => 2,
             'nombre_joueurs_min' => 2,
             'nombre_joueurs_max' => 2,
@@ -91,11 +90,11 @@ class JeuSeeder extends Seeder
         ])->create();
 
         Jeu::factory([
-            'nom' => "SOS Ouistiti",
-            'description' => "Jeu stratégique",
-//            'regles' => "Chaque pion à des mouvements différent...",
-            'langue' => "toutes",
-            'url_media' => "public/images/echec.png",
+            'nom' => 'SOS Ouistiti',
+            'description' => 'Jeu stratégique',
+            //            'regles' => "Chaque pion à des mouvements différent...",
+            'langue' => 'toutes',
+            'url_media' => 'public/images/echec.png',
             'age_min' => 2,
             'nombre_joueurs_min' => 2,
             'nombre_joueurs_max' => 4,

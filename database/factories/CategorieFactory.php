@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class CategorieFactory extends Factory
 {
-
-
     /**
      * Define the model's default state.
      *

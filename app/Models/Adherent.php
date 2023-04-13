@@ -43,18 +43,21 @@ class Adherent extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
-    public function likes() {
+    public function likes()
+    {
         return $this->belongsToMany(Jeu::class, 'like');
     }
 
-    public function commentaires() {
+    public function commentaires()
+    {
         return $this->hasMany(Commentaire::class);
     }
 
-    public function achats() {
-        return $this->belongsToMany(Jeu::class,'achats')
+    public function achats()
+    {
+        return $this->belongsToMany(Jeu::class, 'achats')
             ->as('achats')
-            ->withPivot('date_achat','lieu_achat','prix');
+            ->withPivot('date_achat', 'lieu_achat', 'prix');
     }
 
     /**
@@ -77,7 +80,8 @@ class Adherent extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function roles() {
+    public function roles()
+    {
         return $this->belongsToMany(Role::class);
     }
 }

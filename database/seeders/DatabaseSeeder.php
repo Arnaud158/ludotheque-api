@@ -14,7 +14,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-
         // \App\Models\Adherent::factory()->create([
         //     'name' => 'Test Adherent',
         //     'email' => 'test@example.com',

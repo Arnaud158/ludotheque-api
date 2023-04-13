@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Categorie;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class CategorieSeeder extends Seeder
@@ -16,16 +15,15 @@ class CategorieSeeder extends Seeder
     public function run()
     {
         Categorie::factory([
-            'nom' => "Enfant"
+            'nom' => 'Enfant',
         ])->create();
 
         Categorie::factory([
-            'nom' => "Stratégique"
+            'nom' => 'Stratégique',
         ])->create();
 
         Categorie::factory([
-            'nom' => "Plateau"
+            'nom' => 'Plateau',
         ])->create();
-
     }
 }

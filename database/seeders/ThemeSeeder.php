@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Theme;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ThemeSeeder extends Seeder
@@ -16,11 +15,11 @@ class ThemeSeeder extends Seeder
     public function run()
     {
         Theme::factory([
-            'nom' => "Horreur"
+            'nom' => 'Horreur',
         ])->create();
 
         Theme::factory([
-            'nom' => "Classique"
+            'nom' => 'Classique',
         ])->create();
     }
 }

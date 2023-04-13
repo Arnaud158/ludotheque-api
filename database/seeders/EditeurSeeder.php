@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Editeur;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class EditeurSeeder extends Seeder
@@ -16,15 +15,15 @@ class EditeurSeeder extends Seeder
     public function run()
     {
         Editeur::factory([
-            'nom' => "Hasbro"
+            'nom' => 'Hasbro',
         ])->create();
 
         Editeur::factory([
-            'nom' => "Mme Membré"
+            'nom' => 'Mme Membré',
         ])->create();
 
         Editeur::factory([
-            'nom' => "Ludo"
+            'nom' => 'Ludo',
         ])->create();
     }
 }

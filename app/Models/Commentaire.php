@@ -8,11 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Commentaire extends Model
 {
     use HasFactory;
-    protected $guarded = [];
 
     public $timestamps = false;
 
-    public function adherent() {
+    protected $guarded = [];
+
+    public function adherent()
+    {
         return $this->belongsTo(Adherent::class);
     }
 }
