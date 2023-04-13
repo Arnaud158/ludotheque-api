@@ -24,11 +24,11 @@ class AchatRequest extends FormRequest
     public function rules()
     {
         return [
-            'date_achat' => "required|string|between:1,50",
-            'lieu_achat' => "required|string|between:1,50",
-            'prix' => "required|string|between:1,10",
-            'adherent_id' => "required|integer",
-            'jeu_id' => "required|integer"
+            'date_achat' => 'required|string|between:1,50',
+            'lieu_achat' => 'required|string|between:1,50',
+            'prix' => 'required|string|between:1,10',
+            'adherent_id' => 'required|integer',
+            'jeu_id' => 'required|integer',
         ];
     }
 }

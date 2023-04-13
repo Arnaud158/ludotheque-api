@@ -10,8 +10,10 @@ class SimpleTest extends TestCase
      * A basic unit test example.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_example()
+    public function example()
     {
         $this->assertTrue(1 == 1);
         $this->assertFalse(1 != 1);

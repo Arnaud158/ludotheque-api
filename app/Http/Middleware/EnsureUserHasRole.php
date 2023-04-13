@@ -14,10 +14,9 @@ class EnsureUserHasRole
     /**
      * Handle an incoming request.
      *
-     * @param Request $request
      * @param Closure(Request): (Response|RedirectResponse) $next
-     * @param string $role
      * @return RedirectResponse
+     *
      * @throws HttpResponseException
      */
     public function handle(Request $request, Closure $next, string $role)

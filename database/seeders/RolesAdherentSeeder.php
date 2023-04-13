@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Adherent;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class RolesAdherentSeeder extends Seeder

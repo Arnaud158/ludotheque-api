@@ -24,7 +24,7 @@ class AdherentFactory extends Factory
             'remember_token' => Str::random(10),
             'nom' => fake()->lastName(),
             'prenom' => fake()->firstName(),
-            'pseudo' => fake()->name()
+            'pseudo' => fake()->name(),
         ];
     }
 }

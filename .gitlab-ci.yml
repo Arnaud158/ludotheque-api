@@ -20,10 +20,20 @@ before_script:
 
 stages:
   - "test"
+  - "analyse"
 
 test:
+  stage: test
   tags:
     - "sae-s4a01"
   script:
     - ./vendor/bin/phpunit
+
+linter:
+  stage: analyse
+  tags:
+    - "sae-s4a01"
+  script:
+    - ./vendor/bin/duster lint
+  allow_failure: true
 

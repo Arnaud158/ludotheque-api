@@ -16,5 +16,4 @@ class Categorie extends Model
     {
         return $this->hasMany(Adherent::class);
     }
-
 }

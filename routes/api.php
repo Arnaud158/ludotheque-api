@@ -33,20 +33,20 @@ Route::controller(AdherentController::class)->group(function () {
 //Route::apiResource('jeux',JeuController::class); // a modif
 
 Route::controller(CommentaireController::class)->group(function () {
-    Route::post('commentaire', 'store')->middleware(['auth:api', 'role:adherent'])->name("commentaire.post");
-    Route::match(['put', 'patch'], 'commentaire/{id}', 'update')->middleware(['auth:api'])->name("commentaire.update");
-    Route::delete('commentaire/{id}', 'destroy')->middleware(['auth:api'])->name("commentaire.destroy");
+    Route::post('commentaire', 'store')->middleware(['auth:api', 'role:adherent'])->name('commentaire.post');
+    Route::match(['put', 'patch'], 'commentaire/{id}', 'update')->middleware(['auth:api'])->name('commentaire.update');
+    Route::delete('commentaire/{id}', 'destroy')->middleware(['auth:api'])->name('commentaire.destroy');
 });
 
 Route::controller(JeuController::class)->group(function () {
 //    Route::get('jeu', 'index')->name("jeu.index");
-    Route::post('jeu/listeJeu', 'listeJeu')->name("jeu.liste");
-    Route::post('jeu', 'store')->middleware(['auth:api', 'role:adhérent-premium'])->name("jeu.store");
-    Route::match(['put', 'patch'],'jeu/{id}', 'update')->middleware(['auth:api', 'role:adhérent-premium'])->name("jeu.update");
-    Route::match(['put', 'patch'],'jeu/{id}/url', 'modifUrl')->middleware(['auth:api', 'role:adhérent-premium'])->name("jeu.url");
-    Route::post('jeu/achat', 'achatJeu')->middleware(['auth:api', 'role:adhérent-premium'])->name("jeu.achat");
-    Route::delete('jeu/achat/{id}', 'supprimerAchat')->middleware(['auth:api'])->name("jeu.suprAchat");
-    Route::get('jeu/{id}', 'detailJeu')->middleware(['auth:api'])->name("jeu.details");
+    Route::post('jeu/listeJeu', 'listeJeu')->name('jeu.liste');
+    Route::post('jeu', 'store')->middleware(['auth:api', 'role:adhérent-premium'])->name('jeu.store');
+    Route::match(['put', 'patch'], 'jeu/{id}', 'update')->middleware(['auth:api', 'role:adhérent-premium'])->name('jeu.update');
+    Route::match(['put', 'patch'], 'jeu/{id}/url', 'modifUrl')->middleware(['auth:api', 'role:adhérent-premium'])->name('jeu.url');
+    Route::post('jeu/achat', 'achatJeu')->middleware(['auth:api', 'role:adhérent-premium'])->name('jeu.achat');
+    Route::delete('jeu/achat/{id}', 'supprimerAchat')->middleware(['auth:api'])->name('jeu.suprAchat');
+    Route::get('jeu/{id}', 'detailJeu')->middleware(['auth:api'])->name('jeu.details');
 });
 
 //Route::post('jeux/listejeu', [JeuController::class,'listeJeu'])->name('jeux.listeJeu');

@@ -23,11 +23,11 @@ class Achat extends Model
         'lieu_achat',
         'prix',
         'adherent_id',
-        'jeu_id'
+        'jeu_id',
     ];
 
-    public function adherent() {
+    public function adherent()
+    {
         return $this->belongsTo(Adherent::class);
     }
-
 }

@@ -8,12 +8,8 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up() {
+    public function up()
+    {
         Schema::create('achats', function (Blueprint $table) {
             $table->foreignIdFor(Adherent::class)
                 ->onUpdate('cascade')
@@ -27,12 +23,8 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('achats');
     }
 };
