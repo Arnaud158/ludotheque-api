@@ -513,9 +513,9 @@ class JeuController extends Controller
             }
             if ($request->sort != null) {
                 if ($request->sort == 'desc') {
-                    $jeux = $jeux->sortByDesc('id');
+                    $jeux = $jeux->sortByDesc('nom');
                 } else {
-                    $jeux = $jeux->sortBy('id');
+                    $jeux = $jeux->sortBy('nom');
                 }
             }
 
