@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use HttpResponseException;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
